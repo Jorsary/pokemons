@@ -1,5 +1,4 @@
-import { Box, Button, Card, Typography } from "@mui/material";
-import axios from "axios";
+import { Box, Card, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { pokemonTypes } from "../utils/constants";
 
@@ -9,8 +8,8 @@ const CardPokemon = ({ props }) => {
   const [data, setData] = useState();
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(url);
-      setData(response.data);
+      const response = await fetch(url).then(res=>res.json())
+      setData(response);
     }
 
     fetchData();
@@ -31,13 +30,14 @@ const CardPokemon = ({ props }) => {
       >
         <img
           style={{ maxWidth: "200px", maxHeight: "200px" }}
-          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${data.id}.svg`}
+          
+          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
         />
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center",
+            alignItems: "end",
             width: "100%",
             paddingTop: "15px",
           }}
@@ -58,9 +58,8 @@ const CardPokemon = ({ props }) => {
                 sx={{
                   backgroundColor: pokemonTypes[element.type.name].color,
                   borderRadius: "30px",
-                  padding: "0 10px",
                   color: "#fff",
-                  width: "100px",
+                  width: "70px",
                   textAlign: "center",
                   "::first-letter": {
                     textTransform: "uppercase",

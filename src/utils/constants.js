@@ -1,74 +1,74 @@
 export const pokemonTypes = {
   normal: {
-    url: "1",
+    name: "normal",
     color: "#545436",
   },
   fighting: {
-    url: "2",
+    name: "fighting",
     color: "#9a2620",
   },
   flying: {
-    url: "3",
+    name: "flying",
     color: "#270f70",
   },
   poison: {
-    url: "4",
+    name: "poison",
     color: "#803380",
   },
   ground: {
-    url: "5",
+    name: "ground",
     color: "#644f14",
   },
   rock: {
-    url: "6",
+    name: "rock",
     color: "#93802d",
   },
   bug: {
-    url: "7",
+    name: "bug",
     color: "#86931a",
   },
   ghost: {
-    url: "8",
+    name: "ghost",
     color: "#5a467a",
   },
   steel: {
-    url: "9",
+    name: "steel",
     color: "#313149",
   },
   fire: {
-    url: "10",
+    name: "fire",
     color: "#ac4f0c",
   },
   water: {
-    url: "11",
+    name: "water",
     color: "#0e3289",
   },
   grass: {
-    url: "12",
+    name: "grass",
     color: "#5f902d",
   },
   electric: {
-    url: "13",
+    name: "electric",
     color: "#826904",
   },
   ice: {
-    url: "14",
+    name: "ice",
     color: "#256363",
   },
   psychic: {
-    url: "15",
+    name: "psychic",
     color: "#950631",
   },
   dragon: {
-    url: "16",
+    name: "dragon",
     color: "#3506a9",
   },
   dark: {
-    url: "17",
+    name: "dark",
     color: "#5a463a",
   },
   fairy: {
-    url: "18",
+    name: "fairy",
     color: "#691125",
   },
 };

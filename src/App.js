@@ -15,7 +15,7 @@ export const darkTheme = createTheme({
 function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchPokemons({ limit: 10000, offset: 0 }));
+    dispatch(fetchPokemons());
   }, []);
   return (
     <ThemeProvider theme={darkTheme}>

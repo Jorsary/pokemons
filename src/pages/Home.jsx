@@ -1,18 +1,14 @@
-import { Box, MenuItem, Pagination, Select, TextField } from "@mui/material";
+import { Box } from "@mui/material";
 import { Container } from "@mui/system";
-import React, { useState } from "react";
+import React from "react";
 import CardPokemon from "../components/CardPokemon";
 import Paginator from "../components/Paginator";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-
+import Search from "../components/Search";
+import SelectTypes from "../components/SelectTypes";
+import { useAppSelector } from "../hooks/redux";
 
 const Home = () => {
-  const [searchValue, setSearchValue] = useState("");
   const { result } = useAppSelector((state) => state.pokemon);
-  const dispatch = useAppDispatch();
-
-
-
   return (
     <Container maxWidth="lg">
       <Box
@@ -22,24 +18,20 @@ const Home = () => {
           alignItems: "center",
           width: "100%",
           justifyContent: "space-between",
-          flexDirection: {xs:'column', sm:'row'},
+          flexDirection: { xs: "column", sm: "row" },
           gap: "15px",
         }}
       >
         <Paginator />
-        <TextField
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          placeholder="Search"
-          variant="standard"
-        />
+        <Search />
       </Box>
+      <SelectTypes />
       <Box
         display="grid"
         sx={{
           gap: "15px",
           gridTemplateColumns: {
-            lg: "repeat(4,1fr)",
+            lg: "repeat(5,1fr)",
             md: "repeat(3, 1fr)",
             sm: "repeat(2, 1fr)",
             xs: "1fr",
@@ -48,6 +40,17 @@ const Home = () => {
       >
         {result &&
           result.map((item) => <CardPokemon key={item.name} props={item} />)}
+      </Box>
+      <Box
+        sx={{
+          padding: { xs: "20px 0", sm: "20px" },
+          display: { xs: "flex", md: "none" },
+          alignItems: "center",
+          width: "100%",
+          justifyContent:'center'
+        }}
+      >
+        <Paginator />
       </Box>
     </Container>
   );
