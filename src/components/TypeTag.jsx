@@ -23,6 +23,8 @@ const TypeTag = ({ props }) => {
         textAlign: "center",
         borderRadius: "30px",
         cursor: "pointer",
+        fontFamily: "Roboto Mono",
+        fontSize:13,
         "::first-letter": {
           textTransform: "uppercase",
         },

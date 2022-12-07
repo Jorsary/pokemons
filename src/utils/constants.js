@@ -72,3 +72,12 @@ export const pokemonTypes = {
     color: "#691125",
   },
 };
+
+export const PokemonStats = {
+  hp: "#8B0000",
+  attack: "#DDA0DD",
+  defense: "#ADD8E6",
+  "special-attack": "#FF00FF",
+  "special-defense": "#0000FF",
+  speed: "#FFA500",
+};

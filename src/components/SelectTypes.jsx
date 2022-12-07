@@ -32,6 +32,7 @@ const SelectTypes = () => {
           textAlign: "center",
           borderRadius: "30px",
           cursor: "pointer",
+          fontSize:13,
           "::first-letter": {
             textTransform: "uppercase",
           },
