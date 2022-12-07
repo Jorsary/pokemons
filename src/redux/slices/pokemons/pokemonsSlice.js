@@ -2,44 +2,53 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchPokemons } from "./asyncActions";
 
 const initialState = {
-  pokemons: null,
   isLoading: false,
   error: "",
+  pokemons: null,
+  countPokemons: 0,
+  totalPages: 0,
+  result: null,
+  itemsPerPage: 10,
+  currentPage: 1,
 };
 
 const elementsSlice = createSlice({
   name: "pokemon",
   initialState,
   reducers: {
-    searchPokemonByName: (state, action) => {
-      state.pokemons.results.filter((item) => {
-        console.log(Boolean(item.name.includes(action.payload)));
-        Boolean(item.name.includes(action.payload));
-      });
+
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload
+      state.result = state.pokemons.slice(state.itemsPerPage*state.currentPage-state.itemsPerPage, state.itemsPerPage*state.currentPage)
+    },
+    setItemsPerPage: (state, action) => {
+      state.currentPage = 1
+      state.itemsPerPage = action.payload;
+      state.totalPages = Math.ceil(state.countPokemons / state.itemsPerPage);
+      state.result = state.pokemons.slice(0, state.itemsPerPage);
     },
   },
   extraReducers: {
     [fetchPokemons.fulfilled.type]: (state, action) => {
+      state.countPokemons = action.payload.count;
+      state.totalPages = Math.ceil(state.countPokemons / state.itemsPerPage);
       state.isLoading = false;
       state.error = "";
-      if (action.payload.results) {
-        state.pokemons = action.payload.results;
-      } else {
-        state.pokemons = action.payload.forms;
-      }
+      state.pokemons = action.payload.results;
+      state.result = state.pokemons.slice(0, state.itemsPerPage);
     },
     [fetchPokemons.pending.type]: (state) => {
       state.isLoading = true;
     },
     [fetchPokemons.rejected.type]: (state, action) => {
       state.isLoading = false;
-      state.pokemons = null
+      state.pokemons = null;
       state.error = action.payload;
-      console.log(action.payload)
     },
   },
 });
 
-export const { searchPokemonByName } = elementsSlice.actions;
+export const { setItemsPerPage, setCurrentPage } =
+  elementsSlice.actions;
 
 export default elementsSlice.reducer;

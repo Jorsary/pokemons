@@ -3,19 +3,13 @@ import axios from "axios";
 
 export const fetchPokemons = createAsyncThunk(
   "pokemons/fetchAll",
-  async function ({ id, limit, offset }, thunkAPI) {
-    const name = id ? id + "/" : "";
+  async function (thunkAPI) {
+
     try {
-      const responce = await axios.get(
-        `https://pokeapi.co/api/v2/pokemon/${name}`,
-        {
-          params: {
-            limit,
-            offset,
-          },
-        }
-      )
-      return responce.data;
+      const responce = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10000`
+      ).then((res)=> res.json())
+      return responce
     } catch (e) {
       return thunkAPI.rejectWithValue("Nothing found");
     }

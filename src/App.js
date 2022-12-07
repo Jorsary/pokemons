@@ -1,9 +1,11 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout";
+import { useAppDispatch } from "./hooks/redux";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import { fetchPokemons } from "./redux/slices/pokemons/asyncActions";
 export const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -11,6 +13,10 @@ export const darkTheme = createTheme({
 });
 
 function App() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchPokemons({ limit: 10000, offset: 0 }));
+  }, []);
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
