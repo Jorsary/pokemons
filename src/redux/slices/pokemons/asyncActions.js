@@ -25,7 +25,6 @@ export const fetchPokemonsWithTypes = createAsyncThunk(
         ).then((res) => res.json());
         result.push(...responce.pokemon);
       }
-      console.log(result);
       return result
     } catch (e) {
       return thunkAPI.rejectWithValue("Nothing found");

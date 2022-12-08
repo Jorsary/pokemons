@@ -1,14 +1,40 @@
 import { Box } from "@mui/material";
 import { Container } from "@mui/system";
-import React from "react";
-import CardPokemon from "../components/CardPokemon";
-import Paginator from "../components/Paginator";
-import Search from "../components/Search";
-import SelectTypes from "../components/SelectTypes";
-import { useAppSelector } from "../hooks/redux";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { CardPokemon } from "../components/CardPokemon";
+import { Paginator } from "../components/Paginator";
+import { Search } from "../components/Search";
+import { SelectTypes } from "../components/SelectTypes";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import {
+  searchByName,
+  selectType,
+  setType,
+} from "../redux/slices/pokemons/pokemonsSlice";
 
 const Home = () => {
-  const { result } = useAppSelector((state) => state.pokemon);
+  const { result, selectedTypes } = useAppSelector((state) => state.pokemon);
+
+  const dispatch = useAppDispatch();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (!selectedTypes.legnth) {
+      setSearchParams({
+        types: selectedTypes,
+      });
+    }
+  }, [selectedTypes]);
+
+  useEffect(() => {
+    const types = searchParams.getAll("types");
+    types.forEach((type) => {
+      dispatch(selectType(type));
+    });
+  }, []);
+
   return (
     <Container maxWidth="lg">
       <Box
@@ -22,10 +48,10 @@ const Home = () => {
           gap: "15px",
         }}
       >
-        <Paginator />
+        <SelectTypes />
         <Search />
       </Box>
-      <SelectTypes />
+      <Paginator />
       <Box
         display="grid"
         sx={{
@@ -43,11 +69,10 @@ const Home = () => {
       </Box>
       <Box
         sx={{
-          padding: { xs: "20px 0", sm: "20px" },
           display: { xs: "flex", md: "none" },
           alignItems: "center",
           width: "100%",
-          justifyContent:'center'
+          justifyContent: "center",
         }}
       >
         <Paginator />
@@ -56,4 +81,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export { Home };

@@ -1,6 +1,6 @@
-import { Typography } from '@mui/material'
-import { Box } from '@mui/system'
-import React from 'react'
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import React from "react";
 
 const NotFound = () => {
   return (
@@ -25,7 +25,7 @@ const NotFound = () => {
         Такой страницы не существует
       </Typography>
     </Box>
-  )
-}
+  );
+};
 
-export default NotFound
+export { NotFound };

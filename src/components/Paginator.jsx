@@ -26,8 +26,9 @@ const Paginator = () => {
       sx={{
         display: "flex",
         alignItems: "center",
-        flexDirection: {xs:'column', sm:'row'},
-        gap:'10px'
+        flexDirection: { xs: "column", sm: "row" },
+        gap: "10px",
+        padding: { xs: "20px 0", sm: "20px" },
       }}
     >
       <Select
@@ -49,4 +50,4 @@ const Paginator = () => {
   );
 };
 
-export default Paginator;
+export { Paginator };

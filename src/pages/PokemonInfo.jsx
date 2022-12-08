@@ -25,7 +25,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme, props }) => ({
   },
 }));
 
-const Subtitle = styled(Typography)(() => ({
+export const Subtitle = styled(Typography)(() => ({
   fontWeight: 500,
   fontFamily: "Roboto Mono",
   fontSize: 16,
@@ -50,155 +50,150 @@ const PokemonInfo = () => {
     fetchPokemon();
   }, [pokemons]);
 
-  useEffect(() => {
-    data &&
-      data.stats.map((item) => {
-        console.log(item);
-      });
-  }, [data]);
-
   return (
     <Container maxWidth="sm" sx={{}}>
       {data && (
-        <><Box sx={{ display: "flex", gap: "5px",padding:'15px' }}>
-        {data &&
-          data.types.map((element, i) => (
-            <Box
-              key={i}
-              sx={{
-                backgroundColor: pokemonTypes[element.type.name].color,
-                borderRadius: "30px",
-                color: "#fff",
-                width: "70px",
-                textAlign: "center",
-                fontFamily: "Roboto Mono",
-                fontSize: 13,
-                "::first-letter": {
-                  textTransform: "uppercase",
-                },
-              }}
-            >
-              {element.type.name}
-            </Box>
-          ))}
-      </Box>
-        <Card
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "20px",
-            alignItems: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              fontWeight: 500,
-              fontFamily: "Roboto Mono",
-              fontSize: 20,
-              textTransform: "uppercase",
-            }}
-          >
-            {data.name}
-          </Typography>
-
-          <img
-            style={{ maxWidth: "400px", maxHeight: "400px", width: "100%" }}
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
-          />
-          <Box sx={{ display: "flex", alignSelf: "stretch", gap: "20px" }}>
-            <Box
-              sx={{
-                width: "30%",
-              }}
-            >
-              <Subtitle>Abilities:</Subtitle>
-              {data.abilities.map((item) => (
+        <>
+          <Box sx={{ display: "flex", gap: "5px", padding: "15px" }}>
+            {data &&
+              data.types.map((element, i) => (
                 <Box
+                  key={i}
                   sx={{
+                    backgroundColor: pokemonTypes[element.type.name].color,
+                    borderRadius: "30px",
+                    color: "#fff",
+                    width: "70px",
+                    textAlign: "center",
                     fontFamily: "Roboto Mono",
-                    fontSize: 15,
+                    fontSize: 13,
                     "::first-letter": {
                       textTransform: "uppercase",
                     },
                   }}
                 >
-                  {item.ability.name}
+                  {element.type.name}
                 </Box>
               ))}
-              <Subtitle sx={{ paddingTop: "10px" }}>Other:</Subtitle>
-              <Box
-                sx={{ gap: "10px", display: "flex", flexDirection: "column" }}
-              >
-                <Typography
-                  sx={{
-                    fontFamily: "Roboto Mono",
-                    fontSize: 15,
-                    border: "1px solid gray",
-                    borderRadius: "15px",
-                    textAlign: "center",
-                  }}
-                >
-                  {"Height " + data.height}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: "Roboto Mono",
-                    fontSize: 15,
-                    border: "1px solid gray",
-                    borderRadius: "15px",
-                    textAlign: "center",
-                  }}
-                >
-                  {"Weight " + data.weight}
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box
+          </Box>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              padding: "20px",
+              alignItems: "center",
+            }}
+          >
+            <Typography
               sx={{
-                width: "70%",
+                fontWeight: 500,
+                fontFamily: "Roboto Mono",
+                fontSize: 20,
+                textTransform: "uppercase",
               }}
             >
-              <Subtitle>Stats:</Subtitle>
-              {data.stats.map((item) => (
-                <>
+              {data.name}
+            </Typography>
+
+            <img
+              style={{ maxWidth: "400px", maxHeight: "400px", width: "100%" }}
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
+            />
+            <Box sx={{ display: "flex", alignSelf: "stretch", gap: "20px" }}>
+              <Box
+                sx={{
+                  width: "30%",
+                }}
+              >
+                <Subtitle>Abilities:</Subtitle>
+                {data.abilities.map((item) => (
                   <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
+                    sx={{
+                      fontFamily: "Roboto Mono",
+                      fontSize: 15,
+                      "::first-letter": {
+                        textTransform: "uppercase",
+                      },
+                    }}
                   >
-                    <Typography
-                      sx={{
-                        fontFamily: "Roboto Mono",
-                        "::first-letter": {
-                          textTransform: "uppercase",
-                        },
-                      }}
-                    >
-                      {item.stat.name}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontFamily: "Roboto Mono",
-                        "::first-letter": {
-                          textTransform: "uppercase",
-                        },
-                      }}
-                    >
-                      {item.base_stat}
-                    </Typography>
+                    {item.ability.name}
                   </Box>
-                  <BorderLinearProgress
-                    props={{ main: PokemonStats[item.stat.name] }}
-                    variant="determinate"
-                    value={item.base_stat}
-                  />
-                </>
-              ))}
+                ))}
+                <Subtitle sx={{ paddingTop: "10px" }}>Other:</Subtitle>
+                <Box
+                  sx={{ gap: "10px", display: "flex", flexDirection: "column" }}
+                >
+                  <Typography
+                    sx={{
+                      fontFamily: "Roboto Mono",
+                      fontSize: 15,
+                      border: "1px solid gray",
+                      borderRadius: "15px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {"Height " + data.height}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: "Roboto Mono",
+                      fontSize: 15,
+                      border: "1px solid gray",
+                      borderRadius: "15px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {"Weight " + data.weight}
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  width: "70%",
+                }}
+              >
+                <Subtitle>Stats:</Subtitle>
+                {data.stats.map((item) => (
+                  <>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <Typography
+                        sx={{
+                          fontFamily: "Roboto Mono",
+                          "::first-letter": {
+                            textTransform: "uppercase",
+                          },
+                        }}
+                      >
+                        {item.stat.name}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontFamily: "Roboto Mono",
+                          "::first-letter": {
+                            textTransform: "uppercase",
+                          },
+                        }}
+                      >
+                        {item.base_stat}
+                      </Typography>
+                    </Box>
+                    <BorderLinearProgress
+                      props={{ main: PokemonStats[item.stat.name] }}
+                      variant="determinate"
+                      value={item.base_stat}
+                    />
+                  </>
+                ))}
+              </Box>
             </Box>
-          </Box>
-        </Card>
-        </>)}
+          </Card>
+        </>
+      )}
     </Container>
   );
 };
 
-export default PokemonInfo;
+export { PokemonInfo };

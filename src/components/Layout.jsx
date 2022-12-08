@@ -1,6 +1,6 @@
 import { Box } from "@mui/system";
 import { Outlet } from "react-router-dom";
-import Header from "./Header";
+import { Header } from "./Header";
 
 const Layout = () => {
   return (
@@ -8,7 +8,7 @@ const Layout = () => {
       <Header />
       <Outlet />
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export { Layout };

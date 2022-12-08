@@ -31,7 +31,7 @@ const CardPokemon = ({ props }) => {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "20px",
-          cursor:'pointer'
+          cursor: "pointer",
         }}
         onClick={() => {
           push(`pokemon/${name}`);
@@ -88,4 +88,4 @@ const CardPokemon = ({ props }) => {
   );
 };
 
-export default CardPokemon;
+export { CardPokemon };

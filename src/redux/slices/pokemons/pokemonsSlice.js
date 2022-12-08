@@ -14,7 +14,7 @@ const initialState = {
   selectedTypes: [],
 };
 
-const elementsSlice = createSlice({
+const pokemonsSlice = createSlice({
   name: "pokemon",
   initialState,
   reducers: {
@@ -53,10 +53,12 @@ const elementsSlice = createSlice({
         state.selectedTypes.push(action.payload);
       }
     },
+    clearTypes: (state) => {
+      state.selectedTypes = [];
+    },
   },
   extraReducers: {
     [fetchPokemons.fulfilled.type]: (state, action) => {
-      state.selectedTypes = [];
       state.countPokemons = action.payload.count;
       state.totalPages = Math.ceil(state.countPokemons / state.itemsPerPage);
       state.isLoading = false;
@@ -79,7 +81,7 @@ const elementsSlice = createSlice({
       state.totalPages = Math.ceil(state.countPokemons / state.itemsPerPage);
       state.isLoading = false;
       state.error = "";
-      action.payload.map((item) => {
+      action.payload.forEach((item) => {
         state.pokemons.push(item.pokemon);
       });
       state.data = state.pokemons;
@@ -103,6 +105,7 @@ export const {
   setPokemonsFromData,
   setType,
   selectType,
-} = elementsSlice.actions;
+  clearTypes,
+} = pokemonsSlice.actions;
 
-export default elementsSlice.reducer;
+export const pokemonsReducer = pokemonsSlice.reducer;

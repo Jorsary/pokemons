@@ -1,7 +1,11 @@
 import { TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "../hooks/redux";
-import { searchByName, setCurrentPage, setPokemonsFromData } from "../redux/slices/pokemons/pokemonsSlice";
+import {
+  searchByName,
+  setCurrentPage,
+  setPokemonsFromData,
+} from "../redux/slices/pokemons/pokemonsSlice";
 
 const Search = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +21,7 @@ const Search = () => {
       };
     }
   }, [searchValue]);
+
   return (
     <TextField
       value={searchValue}
@@ -33,4 +38,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export { Search };
