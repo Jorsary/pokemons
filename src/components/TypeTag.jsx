@@ -1,7 +1,7 @@
 import { Box } from "@mui/system";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { selectType } from "../redux/slices/pokemons/pokemonsSlice";
+import { selectType, setCurrentPage } from "../redux/slices/pokemons/pokemonsSlice";
 
 const TypeTag = ({ props }) => {
   const { color, name } = props;
@@ -13,6 +13,7 @@ const TypeTag = ({ props }) => {
     <Box
       onClick={() => {
         dispatch(selectType(name));
+        dispatch(setCurrentPage(1));
       }}
       sx={{
         outline: isSelect ? "1px solid white" : "",

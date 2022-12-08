@@ -1,39 +1,48 @@
 import { Box } from "@mui/material";
 import { Container } from "@mui/system";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { CardPokemon } from "../components/CardPokemon";
 import { Paginator } from "../components/Paginator";
 import { Search } from "../components/Search";
 import { SelectTypes } from "../components/SelectTypes";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
-  searchByName,
   selectType,
-  setType,
+  setCurrentPage,
+  setItemsPerPage,
 } from "../redux/slices/pokemons/pokemonsSlice";
 
 const Home = () => {
-  const { result, selectedTypes } = useAppSelector((state) => state.pokemon);
+  const { pokemons, result, selectedTypes, itemsPerPage, currentPage } =
+    useAppSelector((state) => state.pokemon);
 
   const dispatch = useAppDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    if (!selectedTypes.legnth) {
+    if (result && selectedTypes) {
       setSearchParams({
         types: selectedTypes,
+        currentPage,
+        itemsPerPage
       });
     }
-  }, [selectedTypes]);
+  }, [selectedTypes, currentPage, result]);
 
   useEffect(() => {
     const types = searchParams.getAll("types");
+    const currentPage = Number(searchParams.get("currentPage"));
+    const itemsPerPage =  Number(searchParams.get("itemsPerPage"))
     types.forEach((type) => {
       dispatch(selectType(type));
     });
-  }, []);
+    if (pokemons) {
+      dispatch(setCurrentPage(currentPage));
+      dispatch(setItemsPerPage(itemsPerPage));
+    }
+  }, [pokemons]);
 
   return (
     <Container maxWidth="lg">

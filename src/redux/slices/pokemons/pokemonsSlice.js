@@ -37,16 +37,19 @@ const pokemonsSlice = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
-      state.result = state.pokemons.slice(
-        state.itemsPerPage * state.currentPage - state.itemsPerPage,
-        state.itemsPerPage * state.currentPage
-      );
+      if (state.result)
+        state.result = state.pokemons.slice(
+          state.itemsPerPage * state.currentPage - state.itemsPerPage,
+          state.itemsPerPage * state.currentPage
+        );
     },
     setItemsPerPage: (state, action) => {
-      state.currentPage = 1;
       state.itemsPerPage = action.payload;
       state.totalPages = Math.ceil(state.countPokemons / state.itemsPerPage);
       state.result = state.pokemons.slice(0, state.itemsPerPage);
+      if (state.currentPage > state.totalPages) {
+        state.currentPage = 1;
+      }
     },
     selectType: (state, action) => {
       if (!current(state.selectedTypes).includes(action.payload)) {

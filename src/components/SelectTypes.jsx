@@ -12,7 +12,7 @@ import { pokemonTypes } from "../utils/constants";
 import { TypeTag } from "./TypeTag";
 
 const SelectTypes = () => {
-  const { result, selectedTypes } = useAppSelector((state) => state.pokemon);
+  const { selectedTypes } = useAppSelector((state) => state.pokemon);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const SelectTypes = () => {
   }, [selectedTypes]);
   return (
     <Box>
-      <Subtitle sx={{ paddingBottom: "10px" }}>Filtred by types:</Subtitle>
+      <Subtitle sx={{ paddingBottom: "10px" }}>Filter by type:</Subtitle>
       <Box
         sx={{
           display: "flex",
