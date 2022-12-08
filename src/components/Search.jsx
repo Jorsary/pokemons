@@ -1,20 +1,23 @@
 import { TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useAppDispatch } from "../hooks/redux";
+import { useSearchParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
   searchByName,
   setCurrentPage,
   setPokemonsFromData,
+  setSearchValue,
 } from "../redux/slices/pokemons/pokemonsSlice";
 
 const Search = () => {
   const dispatch = useAppDispatch();
-  const [searchValue, setSearchValue] = useState("");
+  const { searchValue } = useAppSelector((state) => state.pokemon);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     if (searchValue) {
       const timeoutId = setTimeout(() => {
-        dispatch(searchByName(searchValue.toLowerCase()));
+        dispatch(searchByName());
       }, 1000);
       return () => {
         clearTimeout(timeoutId);
@@ -30,7 +33,7 @@ const Search = () => {
           dispatch(setPokemonsFromData());
           dispatch(setCurrentPage(1));
         }
-        setSearchValue(e.target.value);
+        dispatch(setSearchValue(e.target.value));
       }}
       placeholder="Search"
       variant="standard"

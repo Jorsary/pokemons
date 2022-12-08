@@ -8,13 +8,15 @@ import { Search } from "../components/Search";
 import { SelectTypes } from "../components/SelectTypes";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
+  searchByName,
   selectType,
   setCurrentPage,
   setItemsPerPage,
+  setSearchValue,
 } from "../redux/slices/pokemons/pokemonsSlice";
 
 const Home = () => {
-  const { pokemons, result, selectedTypes, itemsPerPage, currentPage } =
+  const { pokemons, result, selectedTypes, itemsPerPage, currentPage, data,searchValue } =
     useAppSelector((state) => state.pokemon);
 
   const dispatch = useAppDispatch();
@@ -22,27 +24,36 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    if (result && selectedTypes) {
+    if (result) {
       setSearchParams({
         types: selectedTypes,
-        currentPage,
-        itemsPerPage
+        currentPage: currentPage ? currentPage : 1,
+        itemsPerPage: itemsPerPage ? itemsPerPage : 10,
+        searchValue
       });
     }
-  }, [selectedTypes, currentPage, result]);
+  }, [result]);
 
   useEffect(() => {
     const types = searchParams.getAll("types");
     const currentPage = Number(searchParams.get("currentPage"));
-    const itemsPerPage =  Number(searchParams.get("itemsPerPage"))
+    const itemsPerPage = Number(searchParams.get("itemsPerPage"));
+    const search = searchParams.get("searchValue") || ''
+    console.log(search)
     types.forEach((type) => {
       dispatch(selectType(type));
     });
     if (pokemons) {
-      dispatch(setCurrentPage(currentPage));
       dispatch(setItemsPerPage(itemsPerPage));
+      dispatch(setSearchValue(search));
+      dispatch(searchByName())
+      dispatch(setCurrentPage(currentPage));
     }
-  }, [pokemons]);
+    // if (pokemons) {
+    //   dispatch(urlParce({currentPage,itemsPerPage,search}));
+
+    // }
+  }, [data]);
 
   return (
     <Container maxWidth="lg">

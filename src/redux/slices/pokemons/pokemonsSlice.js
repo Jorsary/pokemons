@@ -12,6 +12,7 @@ const initialState = {
   itemsPerPage: 10,
   currentPage: 1,
   selectedTypes: [],
+  searchValue: "",
 };
 
 const pokemonsSlice = createSlice({
@@ -22,14 +23,18 @@ const pokemonsSlice = createSlice({
       state.pokemons = state.data;
       state.totalPages = Math.ceil(state.pokemons.length / state.itemsPerPage);
     },
-    searchByName: (state, action) => {
-      state.pokemons = state.data;
+    setSearchValue: (state, action) => {
+      state.searchValue = action.payload;
+    },
+    searchByName: (state) => {
       const founded = current(state.pokemons).filter((item) =>
-        item.name.includes(action.payload)
+        item.name.includes(state.searchValue.toLowerCase())
       );
-      state.currentPage = 1;
       state.pokemons = founded;
       state.totalPages = Math.ceil(state.pokemons.length / state.itemsPerPage);
+      if(state.totalPages<state.currentPage){
+        state.currentPage = 1
+      }
       state.result = state.pokemons.slice(
         state.itemsPerPage * state.currentPage - state.itemsPerPage,
         state.itemsPerPage * state.currentPage
@@ -45,7 +50,7 @@ const pokemonsSlice = createSlice({
     },
     setItemsPerPage: (state, action) => {
       state.itemsPerPage = action.payload;
-      state.totalPages = Math.ceil(state.countPokemons / state.itemsPerPage);
+      state.totalPages = Math.ceil(state.pokemons.length / state.itemsPerPage);
       state.result = state.pokemons.slice(0, state.itemsPerPage);
       if (state.currentPage > state.totalPages) {
         state.currentPage = 1;
@@ -59,6 +64,11 @@ const pokemonsSlice = createSlice({
     clearTypes: (state) => {
       state.selectedTypes = [];
     },
+    urlParce: (state, action) => {
+      state.searchValue= action.payload.search
+      state.currentPage = action.payload.currentPage
+      state.itemsPerPage = action.payload.itemsPerPage
+    }
   },
   extraReducers: {
     [fetchPokemons.fulfilled.type]: (state, action) => {
@@ -109,6 +119,7 @@ export const {
   setType,
   selectType,
   clearTypes,
+  setSearchValue,urlParce
 } = pokemonsSlice.actions;
 
 export const pokemonsReducer = pokemonsSlice.reducer;

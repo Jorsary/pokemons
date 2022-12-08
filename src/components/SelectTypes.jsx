@@ -7,7 +7,7 @@ import {
   fetchPokemons,
   fetchPokemonsWithTypes,
 } from "../redux/slices/pokemons/asyncActions";
-import { clearTypes } from "../redux/slices/pokemons/pokemonsSlice";
+import { clearTypes, setCurrentPage } from "../redux/slices/pokemons/pokemonsSlice";
 import { pokemonTypes } from "../utils/constants";
 import { TypeTag } from "./TypeTag";
 
@@ -36,6 +36,7 @@ const SelectTypes = () => {
           onClick={() => {
             dispatch(clearTypes());
             dispatch(fetchPokemons());
+            dispatch(setCurrentPage(1))
           }}
           sx={{
             background: "gray",

@@ -1,6 +1,6 @@
 import { MenuItem, Pagination, Select } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
   setCurrentPage,
@@ -11,6 +11,7 @@ const Paginator = () => {
   const { itemsPerPage, totalPages, currentPage } = useAppSelector(
     (state) => state.pokemon
   );
+
 
   const dispatch = useAppDispatch();
 
