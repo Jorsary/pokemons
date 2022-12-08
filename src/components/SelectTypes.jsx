@@ -19,7 +19,7 @@ const SelectTypes = () => {
     selectedTypes.length && dispatch(fetchPokemonsWithTypes({ selectedTypes }));
   }, [selectedTypes]);
   return (
-    <Box>
+    <Box sx={{maxWidth:'800px'}}>
       <Subtitle sx={{ paddingBottom: "10px" }}>Filter by type:</Subtitle>
       <Box
         sx={{

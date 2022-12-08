@@ -1,4 +1,5 @@
-import { Box } from "@mui/material";
+import styled from "@emotion/styled";
+import { Backdrop, Box, CircularProgress } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -16,8 +17,16 @@ import {
 } from "../redux/slices/pokemons/pokemonsSlice";
 
 const Home = () => {
-  const { pokemons, result, selectedTypes, itemsPerPage, currentPage, data,searchValue } =
-    useAppSelector((state) => state.pokemon);
+  const {
+    pokemons,
+    result,
+    selectedTypes,
+    itemsPerPage,
+    currentPage,
+    data,
+    searchValue,
+    isLoading,
+  } = useAppSelector((state) => state.pokemon);
 
   const dispatch = useAppDispatch();
 
@@ -29,7 +38,7 @@ const Home = () => {
         types: selectedTypes,
         currentPage: currentPage ? currentPage : 1,
         itemsPerPage: itemsPerPage ? itemsPerPage : 10,
-        searchValue
+        searchValue,
       });
     }
   }, [result]);
@@ -38,33 +47,28 @@ const Home = () => {
     const types = searchParams.getAll("types");
     const currentPage = Number(searchParams.get("currentPage"));
     const itemsPerPage = Number(searchParams.get("itemsPerPage"));
-    const search = searchParams.get("searchValue") || ''
-    console.log(search)
+    const search = searchParams.get("searchValue") || "";
     types.forEach((type) => {
       dispatch(selectType(type));
     });
     if (pokemons) {
       dispatch(setItemsPerPage(itemsPerPage));
       dispatch(setSearchValue(search));
-      dispatch(searchByName())
+      dispatch(searchByName());
       dispatch(setCurrentPage(currentPage));
     }
-    // if (pokemons) {
-    //   dispatch(urlParce({currentPage,itemsPerPage,search}));
-
-    // }
   }, [data]);
 
   return (
     <Container maxWidth="lg">
       <Box
         sx={{
-          padding: { xs: "20px 0", sm: "20px" },
+          padding: { xs: "20px 0", lg: "20px" },
           display: "flex",
           alignItems: "center",
           width: "100%",
           justifyContent: "space-between",
-          flexDirection: { xs: "column", sm: "row" },
+          flexDirection: { xs: "column", lg: "row" },
           gap: "15px",
         }}
       >
@@ -73,8 +77,8 @@ const Home = () => {
       </Box>
       <Paginator />
       <Box
-        display="grid"
         sx={{
+          display: isLoading ? "none" : " grid",
           gap: "15px",
           gridTemplateColumns: {
             lg: "repeat(5,1fr)",

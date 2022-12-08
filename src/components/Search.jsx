@@ -1,14 +1,15 @@
-import { TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { IconButton, TextField } from "@mui/material";
+import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
+  resetSearch,
   searchByName,
   setCurrentPage,
   setPokemonsFromData,
-  setSearchValue,
+  setSearchValue
 } from "../redux/slices/pokemons/pokemonsSlice";
-
 const Search = () => {
   const dispatch = useAppDispatch();
   const { searchValue } = useAppSelector((state) => state.pokemon);
@@ -25,6 +26,10 @@ const Search = () => {
     }
   }, [searchValue]);
 
+  const handleReset = (e) => {
+    dispatch(resetSearch());
+  };
+
   return (
     <TextField
       value={searchValue}
@@ -37,8 +42,16 @@ const Search = () => {
       }}
       placeholder="Search"
       variant="standard"
+      InputProps={{
+        endAdornment: (
+          <IconButton sx={{ padding: 0 }} onClick={handleReset}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        ),
+      }}
     />
   );
 };
 
 export { Search };
+

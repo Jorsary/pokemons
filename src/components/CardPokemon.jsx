@@ -1,4 +1,5 @@
-import { Box, Card, Divider, Typography } from "@mui/material";
+import { FlashAutoOutlined } from "@mui/icons-material";
+import { Box, Card, Divider, Skeleton, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/redux";
@@ -6,6 +7,7 @@ import { pokemonTypes } from "../utils/constants";
 
 const CardPokemon = ({ props }) => {
   const { url, name } = props;
+  const [isLoading, setIsLoading] = useState(true);
 
   const [data, setData] = useState();
   useEffect(() => {
@@ -24,6 +26,7 @@ const CardPokemon = ({ props }) => {
     data && (
       <Card
         sx={{
+          display: isLoading ? "none" : "block",
           width: "100%",
           minWidth: 0,
           display: "flex",
@@ -38,8 +41,21 @@ const CardPokemon = ({ props }) => {
         }}
       >
         <img
-          style={{ maxWidth: "200px", maxHeight: "200px" }}
+          style={{
+            maxWidth: "200px",
+            maxHeight: "200px",
+            display: isLoading ? "none" : "block",
+          }}
+          onLoad={() => {
+            setIsLoading(false);
+          }}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
+        />
+        <Skeleton
+          sx={{ display: isLoading ? "block" : "none" }}
+          variant="rectangular"
+          width={"100%"}
+          height={200}
         />
         <Box
           sx={{

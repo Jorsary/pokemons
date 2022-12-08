@@ -8,9 +8,6 @@ const Header = () => {
     <AppBar position="static">
       <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
         <img
-          onClick={() => {
-            push("/");
-          }}
           style={{ width: "100px" }}
           src={"../logo.svg"}
         />

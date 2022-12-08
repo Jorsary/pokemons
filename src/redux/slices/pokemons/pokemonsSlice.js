@@ -32,8 +32,8 @@ const pokemonsSlice = createSlice({
       );
       state.pokemons = founded;
       state.totalPages = Math.ceil(state.pokemons.length / state.itemsPerPage);
-      if(state.totalPages<state.currentPage){
-        state.currentPage = 1
+      if (state.totalPages < state.currentPage) {
+        state.currentPage = 1;
       }
       state.result = state.pokemons.slice(
         state.itemsPerPage * state.currentPage - state.itemsPerPage,
@@ -64,11 +64,17 @@ const pokemonsSlice = createSlice({
     clearTypes: (state) => {
       state.selectedTypes = [];
     },
-    urlParce: (state, action) => {
-      state.searchValue= action.payload.search
-      state.currentPage = action.payload.currentPage
-      state.itemsPerPage = action.payload.itemsPerPage
-    }
+    resetSearch: (state) => {
+      state.searchValue = "";
+      state.pokemons = state.data;
+      state.result = state.pokemons.slice(
+        state.itemsPerPage * state.currentPage - state.itemsPerPage,
+        state.itemsPerPage * state.currentPage
+      );
+    },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
   extraReducers: {
     [fetchPokemons.fulfilled.type]: (state, action) => {
@@ -119,7 +125,9 @@ export const {
   setType,
   selectType,
   clearTypes,
-  setSearchValue,urlParce
+  setSearchValue,
+  resetSearch,
+  setLoading,
 } = pokemonsSlice.actions;
 
 export const pokemonsReducer = pokemonsSlice.reducer;

@@ -12,7 +12,6 @@ const Paginator = () => {
     (state) => state.pokemon
   );
 
-
   const dispatch = useAppDispatch();
 
   const handleChange = (event, value) => {
