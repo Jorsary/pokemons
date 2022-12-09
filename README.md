@@ -16,14 +16,13 @@
 * ReactJS
 * Redux Toolkit
 * HTML/CSS
-* TypeScript
 * WebPack
 * MaterialUI
 
 
 ## Ссылки
 
-* [Ссылка на Vercel]()
+* [Ссылка на Vercel](https://pokemons-jorsary.vercel.app/)
 
 ## Сборка и разработка проекта
 
