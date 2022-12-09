@@ -1,3 +1,4 @@
+import { Skeleton } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAppSelector } from '../../hooks/redux'
 import { CardPokemon } from '../CardPokemon'
@@ -21,9 +22,18 @@ const CardsContainer = () => {
       fetchPokemons().then(setPokemonsData)
     }
   }, [result])
+
   return (
     <>{pokemonsData &&
       pokemonsData.map((item) => <CardPokemon key={item.name} {...item} />)}
+      {[...Array(10)].map((i) => (
+      <Skeleton
+      key={i}
+      sx={{ borderRadius: '5px', display: pokemonsData.length ? 'none' : 'block' }}
+      variant="rectangular"
+      width={'100%'}
+      height={300}
+    />))}
     {error && <div>{error}</div>}</>
   )
 }

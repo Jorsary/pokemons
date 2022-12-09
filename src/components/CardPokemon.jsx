@@ -48,6 +48,13 @@ const CardPokemon = ({ name, types, sprites }) => {
         }}
         src={sprites.other['official-artwork'].front_default}
       />
+      <Skeleton
+
+      sx={{ borderRadius: '5px', display: !isLoading ? 'none' : 'block' }}
+      variant="rectangular"
+      width={'100%'}
+      height={200}
+    />
       <Box
         sx={{
           display: 'flex',
@@ -91,14 +98,6 @@ const CardPokemon = ({ name, types, sprites }) => {
         </Box>
       </Box>
     </Card>
-
-    <Skeleton
-      sx={{ borderRadius: '5px', display: isLoading ? 'block' : 'none' }}
-      variant="rectangular"
-      width={'100%'}
-      height={300}
-    />
-
   </>)
 }
 
