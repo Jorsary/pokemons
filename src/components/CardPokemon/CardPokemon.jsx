@@ -2,8 +2,8 @@ import { Box, Card, Skeleton, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ImgPokeball from '../images/Pokeball.png'
-import { pokemonTypes } from '../utils/constants'
+import ImgPokeball from '../../images/Pokeball.png'
+import { pokemonTypes } from '../../utils/constants'
 
 const CardPokemon = ({ name, types, sprites }) => {
   const [isLoading, setIsLoading] = useState(true)

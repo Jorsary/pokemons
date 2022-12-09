@@ -1,17 +1,17 @@
 import { Box } from '@mui/system'
 import React, { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import { Subtitle } from '../pages/PokemonInfo'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { Subtitle } from '../../pages/PokemonInfo'
 import {
   fetchPokemons,
   fetchPokemonsWithTypes
-} from '../redux/slices/pokemons/asyncActions'
+} from '../../redux/slices/pokemons/asyncActions'
 import {
   clearTypes,
   setCurrentPage
-} from '../redux/slices/pokemons/pokemonsSlice'
-import { pokemonTypes } from '../utils/constants'
-import { TypeTag } from './TypeTag'
+} from '../../redux/slices/pokemons/pokemonsSlice'
+import { pokemonTypes } from '../../utils/constants'
+import { TypeTag } from '../TypeTag/TypeTag'
 
 const SelectTypes = () => {
   const { selectedTypes } = useAppSelector((state) => state.pokemon)

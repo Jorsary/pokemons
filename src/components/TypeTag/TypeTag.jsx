@@ -1,11 +1,11 @@
 import { Box } from '@mui/system'
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import {
   selectType,
   setCurrentPage,
   unselectType
-} from '../redux/slices/pokemons/pokemonsSlice'
+} from '../../redux/slices/pokemons/pokemonsSlice'
 import PropTypes from 'prop-types'
 
 const TypeTag = ({ color, name }) => {

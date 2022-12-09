@@ -1,9 +1,9 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { Home } from '../pages/Home'
-import { NotFound } from '../pages/NotFound'
-import { PokemonInfo } from '../pages/PokemonInfo'
-import { Layout } from './Layout'
+import { Home } from '../../pages/Home'
+import { NotFound } from '../../pages/NotFound'
+import { PokemonInfo } from '../../pages/PokemonInfo'
+import { Layout } from '../Layout/Layout'
 
 const AppRouter = () => {
   return (

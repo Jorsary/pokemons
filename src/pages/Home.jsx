@@ -3,9 +3,9 @@ import { Container } from '@mui/system'
 import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { CardsContainer } from '../components/CardsContainer/CardsContainer'
-import { Paginator } from '../components/Paginator'
+import { Paginator } from '../components/Paginator/Paginator'
 import { Search } from '../components/Search/Search'
-import { SelectTypes } from '../components/SelectTypes'
+import { SelectTypes } from '../components/SelectTypes/SelectTypes'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import {
   searchByName,
@@ -18,7 +18,6 @@ import {
 const Home = () => {
   const {
     pokemons,
-    result,
     selectedTypes,
     itemsPerPage,
     currentPage,
@@ -32,15 +31,13 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    if (result) {
-      setSearchParams({
-        types: selectedTypes,
-        currentPage: currentPage || 1,
-        itemsPerPage: itemsPerPage || 10,
-        searchValue
-      })
-    }
-  }, [result, selectedTypes, itemsPerPage, searchValue, currentPage])
+    setSearchParams({
+      types: selectedTypes,
+      currentPage,
+      itemsPerPage,
+      searchValue: searchValue || []
+    })
+  }, [selectedTypes, itemsPerPage, searchValue, currentPage])
 
   useEffect(() => {
     const types = searchParams.getAll('types')

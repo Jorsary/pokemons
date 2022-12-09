@@ -1,7 +1,7 @@
 import { Skeleton } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAppSelector } from '../../hooks/redux'
-import { CardPokemon } from '../CardPokemon'
+import { CardPokemon } from '../CardPokemon/CardPokemon'
 
 const CardsContainer = () => {
   const [pokemonsData, setPokemonsData] = useState([])

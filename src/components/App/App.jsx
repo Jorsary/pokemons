@@ -6,9 +6,9 @@ import {
   ThemeProvider
 } from '@mui/material'
 import React, { useEffect } from 'react'
-import { AppRouter } from '../AppRouter'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { fetchPokemons } from '../../redux/slices/pokemons/asyncActions'
+import { AppRouter } from '../AppRouter/AppRouter'
 
 export const darkTheme = createTheme({
   palette: {
