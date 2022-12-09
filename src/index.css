@@ -1,5 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap');
 
 body {
-  font-family: 'Roboto Mono',sans-serif;
+  font-family: 'Roboto Mono', sans-serif;
 }
+
+::-webkit-scrollbar-track {
+  border-radius: 0.125rem;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar {
+  width: 0.25rem;
+  border-radius: 0.125rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0.125rem;
+  background-color: rgb(70, 70, 70);
+}
+
+;

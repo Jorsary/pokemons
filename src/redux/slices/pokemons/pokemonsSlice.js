@@ -61,12 +61,18 @@ const pokemonsSlice = createSlice({
         state.selectedTypes.push(action.payload);
       }
     },
+    unselectType: (state, action) => {
+      if (current(state.selectedTypes).includes(action.payload)) {
+        state.selectedTypes=current(state.selectedTypes).filter((item) => item !== action.payload);
+      }
+    },
     clearTypes: (state) => {
       state.selectedTypes = [];
     },
     resetSearch: (state) => {
       state.searchValue = "";
       state.pokemons = state.data;
+      state.totalPages = Math.ceil(state.pokemons.length / state.itemsPerPage);
       state.result = state.pokemons.slice(
         state.itemsPerPage * state.currentPage - state.itemsPerPage,
         state.itemsPerPage * state.currentPage
@@ -92,7 +98,7 @@ const pokemonsSlice = createSlice({
     [fetchPokemons.rejected.type]: (state, action) => {
       state.isLoading = false;
       state.pokemons = null;
-      state.error = action.payload;
+      state.error = "Error, unable to get data";
     },
     [fetchPokemonsWithTypes.fulfilled.type]: (state, action) => {
       state.pokemons = [];
@@ -112,7 +118,7 @@ const pokemonsSlice = createSlice({
     [fetchPokemonsWithTypes.rejected.type]: (state, action) => {
       state.isLoading = false;
       state.pokemons = null;
-      state.error = action.payload;
+      state.error = "Error, unable to get data";
     },
   },
 });
@@ -127,7 +133,7 @@ export const {
   clearTypes,
   setSearchValue,
   resetSearch,
-  setLoading,
+  setLoading,unselectType
 } = pokemonsSlice.actions;
 
 export const pokemonsReducer = pokemonsSlice.reducer;

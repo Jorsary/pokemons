@@ -1,5 +1,4 @@
-import styled from "@emotion/styled";
-import { Backdrop, Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -26,6 +25,7 @@ const Home = () => {
     data,
     searchValue,
     isLoading,
+    error,
   } = useAppSelector((state) => state.pokemon);
 
   const dispatch = useAppDispatch();
@@ -80,6 +80,7 @@ const Home = () => {
         sx={{
           display: isLoading ? "none" : " grid",
           gap: "15px",
+          paddingBottom:'20px',
           gridTemplateColumns: {
             lg: "repeat(5,1fr)",
             md: "repeat(3, 1fr)",
@@ -90,6 +91,7 @@ const Home = () => {
       >
         {result &&
           result.map((item) => <CardPokemon key={item.name} props={item} />)}
+        {error && <div>{error}</div>}
       </Box>
       <Box
         sx={{

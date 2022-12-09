@@ -29,3 +29,4 @@ const NotFound = () => {
 };
 
 export { NotFound };
+

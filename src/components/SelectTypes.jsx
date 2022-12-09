@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
@@ -7,7 +6,10 @@ import {
   fetchPokemons,
   fetchPokemonsWithTypes,
 } from "../redux/slices/pokemons/asyncActions";
-import { clearTypes, setCurrentPage } from "../redux/slices/pokemons/pokemonsSlice";
+import {
+  clearTypes,
+  setCurrentPage,
+} from "../redux/slices/pokemons/pokemonsSlice";
 import { pokemonTypes } from "../utils/constants";
 import { TypeTag } from "./TypeTag";
 
@@ -16,10 +18,10 @@ const SelectTypes = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    selectedTypes.length && dispatch(fetchPokemonsWithTypes({ selectedTypes }));
+    selectedTypes.length ? dispatch(fetchPokemonsWithTypes({ selectedTypes })) :  dispatch(fetchPokemons())
   }, [selectedTypes]);
   return (
-    <Box sx={{maxWidth:'800px'}}>
+    <Box sx={{ maxWidth: "800px" }}>
       <Subtitle sx={{ paddingBottom: "10px" }}>Filter by type:</Subtitle>
       <Box
         sx={{
@@ -36,7 +38,7 @@ const SelectTypes = () => {
           onClick={() => {
             dispatch(clearTypes());
             dispatch(fetchPokemons());
-            dispatch(setCurrentPage(1))
+            dispatch(setCurrentPage(1));
           }}
           sx={{
             background: "gray",

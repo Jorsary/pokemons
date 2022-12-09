@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
   selectType,
   setCurrentPage,
+  unselectType
 } from "../redux/slices/pokemons/pokemonsSlice";
 
 const TypeTag = ({ props }) => {
@@ -12,14 +13,21 @@ const TypeTag = ({ props }) => {
 
   const isSelect = selectedTypes.includes(name);
   const dispatch = useAppDispatch();
+
+  const toggleType = () => {
+    if (!isSelect) {
+      dispatch(selectType(name));
+    } else {
+      dispatch(unselectType(name));
+    }
+    dispatch(setCurrentPage(1));
+  };
+
   return (
     <Box
-      onClick={() => {
-        dispatch(selectType(name));
-        dispatch(setCurrentPage(1));
-      }}
+      onClick={toggleType}
       sx={{
-        outline: isSelect ? "1px solid white" : "",
+        outline: isSelect ? "2px inset white" : "",
         background: color,
         width: "70px",
         textAlign: "center",
@@ -30,6 +38,10 @@ const TypeTag = ({ props }) => {
         "::first-letter": {
           textTransform: "uppercase",
         },
+        transition: "all .2s ease-in-out",
+        "&:hover": {
+          transform: "scale(1.05)",
+        },
       }}
     >
       {name}
@@ -38,3 +50,4 @@ const TypeTag = ({ props }) => {
 };
 
 export { TypeTag };
+
