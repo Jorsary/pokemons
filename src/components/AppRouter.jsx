@@ -1,9 +1,9 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { Home } from "../pages/Home";
-import { NotFound } from "../pages/NotFound";
-import { PokemonInfo } from "../pages/PokemonInfo";
-import { Layout } from "./Layout";
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { Home } from '../pages/Home'
+import { NotFound } from '../pages/NotFound'
+import { PokemonInfo } from '../pages/PokemonInfo'
+import { Layout } from './Layout'
 
 const AppRouter = () => {
   return (
@@ -15,7 +15,7 @@ const AppRouter = () => {
         <Route path="*" element={<NotFound />}></Route>
       </Route>
     </Routes>
-  );
-};
+  )
+}
 
-export { AppRouter };
+export { AppRouter }

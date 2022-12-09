@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import styled from '@emotion/styled'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import {
   Box,
   Card,
@@ -7,67 +7,68 @@ import {
   IconButton,
   LinearProgress,
   Skeleton,
-  Typography,
-} from "@mui/material";
-import { linearProgressClasses } from "@mui/material/LinearProgress";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAppSelector } from "../hooks/redux";
-import pokeball from "../images/Pokeball.png";
-import { PokemonStats, pokemonTypes } from "../utils/constants";
+  Typography
+} from '@mui/material'
+import { linearProgressClasses } from '@mui/material/LinearProgress'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useAppSelector } from '../hooks/redux'
+import pokeball from '../images/Pokeball.png'
+import { PokemonStats, pokemonTypes } from '../utils/constants'
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme, props }) => ({
   height: 5,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor:
-      theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+      theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800]
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: props.main,
-  },
-}));
+    backgroundColor: props.main
+  }
+}))
 
 export const Subtitle = styled(Typography)(() => ({
   fontWeight: 500,
-  fontFamily: "Roboto Mono",
+  fontFamily: 'Roboto Mono',
   fontSize: 16,
-  justifySelf: "start",
-  "@media (max-width: 600px)": {
-    fontSize: 10,
-  },
-}));
+  justifySelf: 'start',
+  '@media (max-width: 600px)': {
+    fontSize: 10
+  }
+}))
 
 const PokemonInfo = () => {
-  const { pokemons, error } = useAppSelector((state) => state.pokemon);
-  const [data, setData] = useState();
-  const [loading, setLoading] = useState(false);
-  const { id } = useParams();
-  const push = useNavigate();
+  const { pokemons } = useAppSelector((state) => state.pokemon)
+  const [data, setData] = useState()
+  const [loading, setLoading] = useState(false)
+  const { id } = useParams()
+  const push = useNavigate()
 
   useEffect(() => {
-    const fetchPokemon = async () => setLoading(true);
+    const fetchPokemon = async () => setLoading(true)
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
       .then((res) => res.json())
       .then((data) => setData(data))
       .finally(() => {
-        setLoading(false);
-      });
-    fetchPokemon();
-  }, [pokemons]);
+        setLoading(false)
+      })
+    fetchPokemon()
+  }, [pokemons])
 
   return (
-    <Container maxWidth="sm" sx={{ margin: "20px auto 20px auto" }}>
-      {data ? (
+    <Container maxWidth="sm" sx={{ margin: '20px auto 20px auto' }}>
+      {data
+        ? (
         <>
           <Box
             sx={{
-              display: "flex",
-              padding: "15px",
-              width: "100%",
-              alignItems: "center",
-              justifyContent: "space-between",
+              display: 'flex',
+              padding: '15px',
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'space-between'
             }}
           >
             <IconButton onClick={() => push(-1)}>
@@ -75,8 +76,8 @@ const PokemonInfo = () => {
             </IconButton>
             <Box
               sx={{
-                display: "flex",
-                gap: "5px",
+                display: 'flex',
+                gap: '5px'
               }}
             >
               {data &&
@@ -85,15 +86,15 @@ const PokemonInfo = () => {
                     key={i}
                     sx={{
                       backgroundColor: pokemonTypes[element.type.name].color,
-                      borderRadius: "30px",
-                      color: "#fff",
-                      width: "70px",
-                      textAlign: "center",
-                      fontFamily: "Roboto Mono",
+                      borderRadius: '30px',
+                      color: '#fff',
+                      width: '70px',
+                      textAlign: 'center',
+                      fontFamily: 'Roboto Mono',
                       fontSize: 13,
-                      "::first-letter": {
-                        textTransform: "uppercase",
-                      },
+                      '::first-letter': {
+                        textTransform: 'uppercase'
+                      }
                     }}
                   >
                     {element.type.name}
@@ -103,36 +104,36 @@ const PokemonInfo = () => {
           </Box>
           <Card
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              padding: "20px",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '20px',
+              alignItems: 'center'
             }}
           >
             <Typography
               sx={{
                 fontWeight: 500,
-                fontFamily: "Roboto Mono",
+                fontFamily: 'Roboto Mono',
                 fontSize: 20,
-                textTransform: "uppercase",
+                textTransform: 'uppercase'
               }}
             >
               {data.name}
             </Typography>
             <img
               style={{
-                maxWidth: "400px",
-                maxHeight: "400px",
-                width: "100%",
-                display: loading ? "none" : "block",
+                maxWidth: '400px',
+                maxHeight: '400px',
+                width: '100%',
+                display: loading ? 'none' : 'block'
               }}
               onError={(e) => (e.target.src = pokeball)}
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
             />
-            <Box sx={{ display: "flex", alignSelf: "stretch", gap: "20px" }}>
+            <Box sx={{ display: 'flex', alignSelf: 'stretch', gap: '20px' }}>
               <Box
                 sx={{
-                  width: "30%",
+                  width: '30%'
                 }}
               >
                 <Subtitle>Abilities:</Subtitle>
@@ -140,63 +141,63 @@ const PokemonInfo = () => {
                   <Box
                     key={i}
                     sx={{
-                      fontFamily: "Roboto Mono",
+                      fontFamily: 'Roboto Mono',
                       fontSize: { xs: 10, sm: 16 },
-                      "::first-letter": {
-                        textTransform: "uppercase",
-                      },
+                      '::first-letter': {
+                        textTransform: 'uppercase'
+                      }
                     }}
                   >
                     {item.ability.name}
                   </Box>
                 ))}
-                <Subtitle sx={{ paddingTop: "10px" }}>Other:</Subtitle>
+                <Subtitle sx={{ paddingTop: '10px' }}>Other:</Subtitle>
                 <Box
-                  sx={{ gap: "10px", display: "flex", flexDirection: "column" }}
+                  sx={{ gap: '10px', display: 'flex', flexDirection: 'column' }}
                 >
                   <Typography
                     sx={{
-                      fontFamily: "Roboto Mono",
+                      fontFamily: 'Roboto Mono',
                       fontSize: { xs: 10, sm: 16 },
-                      border: "1px solid gray",
-                      borderRadius: "15px",
-                      textAlign: "center",
+                      border: '1px solid gray',
+                      borderRadius: '15px',
+                      textAlign: 'center'
                     }}
                   >
-                    {"Height " + data.height}
+                    {'Height ' + data.height}
                   </Typography>
                   <Typography
                     sx={{
-                      fontFamily: "Roboto Mono",
+                      fontFamily: 'Roboto Mono',
                       fontSize: { xs: 10, sm: 16 },
-                      border: "1px solid gray",
-                      borderRadius: "15px",
-                      textAlign: "center",
+                      border: '1px solid gray',
+                      borderRadius: '15px',
+                      textAlign: 'center'
                     }}
                   >
-                    {"Weight " + data.weight}
+                    {'Weight ' + data.weight}
                   </Typography>
                 </Box>
               </Box>
 
               <Box
                 sx={{
-                  width: "70%",
+                  width: '70%'
                 }}
               >
                 <Subtitle>Stats:</Subtitle>
                 {data.stats.map((item, i) => (
                   <Box key={i}>
                     <Box
-                      sx={{ display: "flex", justifyContent: "space-between" }}
+                      sx={{ display: 'flex', justifyContent: 'space-between' }}
                     >
                       <Typography
                         sx={{
                           fontSize: { xs: 10, sm: 16 },
-                          fontFamily: "Roboto Mono",
-                          "::first-letter": {
-                            textTransform: "uppercase",
-                          },
+                          fontFamily: 'Roboto Mono',
+                          '::first-letter': {
+                            textTransform: 'uppercase'
+                          }
                         }}
                       >
                         {item.stat.name}
@@ -204,10 +205,10 @@ const PokemonInfo = () => {
                       <Typography
                         sx={{
                           fontSize: { xs: 10, sm: 16 },
-                          fontFamily: "Roboto Mono",
-                          "::first-letter": {
-                            textTransform: "uppercase",
-                          },
+                          fontFamily: 'Roboto Mono',
+                          '::first-letter': {
+                            textTransform: 'uppercase'
+                          }
                         }}
                       >
                         {item.base_stat}
@@ -224,18 +225,19 @@ const PokemonInfo = () => {
             </Box>
           </Card>
         </>
-      ) : (
+          )
+        : (
         <Skeleton
           sx={{
-            borderRadius: "15px",
+            borderRadius: '15px'
           }}
           variant="rectangular"
-          width={"100%"}
-          height={"800px"}
+          width={'100%'}
+          height={'800px'}
         ></Skeleton>
-      )}
+          )}
     </Container>
-  );
-};
+  )
+}
 
-export { PokemonInfo };
+export { PokemonInfo }

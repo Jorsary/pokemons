@@ -1,25 +1,25 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from '@reduxjs/toolkit'
 
 export const fetchPokemons = createAsyncThunk(
-  "pokemons/fetchAll",
+  'pokemons/fetchAll',
   async function () {
     const responce = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10000`
-    ).then((res) => res.json());
-    return responce;
+      'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=10000'
+    ).then((res) => res.json())
+    return responce
   }
-);
+)
 
 export const fetchPokemonsWithTypes = createAsyncThunk(
-  "pokemonsType/fetchAll",
+  'pokemonsType/fetchAll',
   async function ({ selectedTypes }) {
-    const result = [];
+    const result = []
     for (const type of selectedTypes) {
       const responce = await fetch(
         `https://pokeapi.co/api/v2/type/${type}`
-      ).then((res) => res.json());
-      result.push(...responce.pokemon);
+      ).then((res) => res.json())
+      result.push(...responce.pokemon)
     }
-    return result;
+    return result
   }
-);
+)

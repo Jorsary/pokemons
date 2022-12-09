@@ -1,34 +1,33 @@
-import { MenuItem, Pagination, Select } from "@mui/material";
-import { Box } from "@mui/system";
-import React from "react";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { MenuItem, Pagination, Select } from '@mui/material'
+import { Box } from '@mui/system'
+import React from 'react'
+import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import {
   setCurrentPage,
-  setItemsPerPage,
-} from "../redux/slices/pokemons/pokemonsSlice";
+  setItemsPerPage
+} from '../redux/slices/pokemons/pokemonsSlice'
 
-const button = '' 
 const Paginator = () => {
   const { itemsPerPage, totalPages, currentPage } = useAppSelector(
     (state) => state.pokemon
-  );
-  const dispatch = useAppDispatch();
+  )
+  const dispatch = useAppDispatch()
 
   const handleChange = (event, value) => {
-    dispatch(setCurrentPage(value));
-  };
+    dispatch(setCurrentPage(value))
+  }
 
   const handleItemsPerPageChange = (event) => {
-    dispatch(setItemsPerPage(event.target.value));
-  };
+    dispatch(setItemsPerPage(event.target.value))
+  }
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "center",
-        flexDirection: { xs: "column", sm: "row" },
-        gap: "10px",
-        padding: { xs: "20px 0", sm: "20px" },
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: { xs: 'column', sm: 'row' },
+        gap: '10px',
+        padding: { xs: '20px 0', sm: '20px' }
       }}
     >
       <Select
@@ -47,7 +46,7 @@ const Paginator = () => {
         onChange={handleChange}
       />
     </Box>
-  );
-};
+  )
+}
 
-export { Paginator };
+export { Paginator }

@@ -1,17 +1,14 @@
-import { AppBar, Toolbar } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { AppBar, Toolbar } from '@mui/material'
+import React from 'react'
 
 const Header = () => {
-  const push = useNavigate();
   return (
     <AppBar position="static">
-      <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
-        <img style={{ width: "100px" }} src={"../logo.svg"} />
+      <Toolbar sx={{ display: 'flex', justifyContent: 'center' }}>
+        <img style={{ width: '100px' }} src={'../logo.svg'} />
       </Toolbar>
     </AppBar>
-  );
-};
+  )
+}
 
-export { Header };
-
+export { Header }
