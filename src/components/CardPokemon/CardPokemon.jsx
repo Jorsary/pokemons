@@ -43,13 +43,13 @@ const CardPokemon = ({ name, types, sprites }) => {
           setIsLoading(false)
         }}
         onError={(e) => {
+          console.log('fff')
           setIsLoading(false)
           e.target.src = ImgPokeball
         }}
         src={sprites.other['official-artwork'].front_default}
       />
       <Skeleton
-
       sx={{ borderRadius: '5px', display: !isLoading ? 'none' : 'block' }}
       variant="rectangular"
       width={'100%'}
@@ -101,6 +101,6 @@ const CardPokemon = ({ name, types, sprites }) => {
   </>)
 }
 
-CardPokemon.propTypes = { name: PropTypes.string, types: PropTypes.object, sprites: PropTypes.object }
+CardPokemon.propTypes = { name: PropTypes.string, types: PropTypes.array, sprites: PropTypes.object }
 
 export { CardPokemon }

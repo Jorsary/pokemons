@@ -26,7 +26,7 @@ const CardsContainer = () => {
   return (
     <>{pokemonsData &&
       pokemonsData.map((item) => <CardPokemon key={item.name} {...item} />)}
-      {[...Array(10)].map((i) => (
+      {[...Array(10)].map((value, i) => (
       <Skeleton
       key={i}
       sx={{ borderRadius: '5px', display: pokemonsData.length ? 'none' : 'block' }}

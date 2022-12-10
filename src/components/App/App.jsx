@@ -1,12 +1,10 @@
 import {
-  Backdrop,
-  CircularProgress,
   createTheme,
   CssBaseline,
   ThemeProvider
 } from '@mui/material'
 import React, { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useAppDispatch } from '../../hooks/redux'
 import { fetchPokemons } from '../../redux/slices/pokemons/asyncActions'
 import { AppRouter } from '../AppRouter/AppRouter'
 
@@ -17,7 +15,6 @@ export const darkTheme = createTheme({
 })
 
 function App () {
-  const { isLoading } = useAppSelector((state) => state.pokemon)
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(fetchPokemons())
@@ -25,12 +22,6 @@ function App () {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isLoading}
-      >
-        <CircularProgress />
-      </Backdrop>
       <AppRouter />
     </ThemeProvider>
   )

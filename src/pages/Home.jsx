@@ -17,6 +17,7 @@ import {
 
 const Home = () => {
   const {
+    result,
     pokemons,
     selectedTypes,
     itemsPerPage,
@@ -31,12 +32,14 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    setSearchParams({
-      types: selectedTypes,
-      currentPage,
-      itemsPerPage,
-      searchValue: searchValue || []
-    })
+    if (result) {
+      setSearchParams({
+        types: selectedTypes,
+        currentPage: currentPage || 1,
+        itemsPerPage: itemsPerPage || 10,
+        searchValue: searchValue || []
+      })
+    }
   }, [selectedTypes, itemsPerPage, searchValue, currentPage])
 
   useEffect(() => {
