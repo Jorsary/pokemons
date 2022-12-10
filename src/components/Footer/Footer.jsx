@@ -9,7 +9,9 @@ const Footer = () => {
         display: 'flex',
         justifyContent: 'center',
         fontSize: 15,
-        fontFamily: 'Roboto Mono'
+        fontFamily: 'Roboto Mono',
+        marginBottom: '-1'
+
       }}
     >
       © 2022.{' '}

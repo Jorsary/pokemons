@@ -23,8 +23,7 @@ const Home = () => {
     itemsPerPage,
     currentPage,
     data,
-    searchValue,
-    isLoading
+    searchValue
   } = useAppSelector((state) => state.pokemon)
 
   const dispatch = useAppDispatch()
@@ -59,7 +58,7 @@ const Home = () => {
   }, [data])
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" >
       <Box
         sx={{
           padding: { xs: '20px 0', lg: '20px' },
@@ -75,21 +74,9 @@ const Home = () => {
         <Search />
       </Box>
       <Paginator />
-      <Box
-        sx={{
-          display: isLoading ? 'none' : ' grid',
-          gap: '15px',
-          paddingBottom: '20px',
-          gridTemplateColumns: {
-            lg: 'repeat(5,1fr)',
-            md: 'repeat(3, 1fr)',
-            sm: 'repeat(2, 1fr)',
-            xs: '1fr'
-          }
-        }}
-      >
+
         <CardsContainer />
-      </Box>
+
       <Box
         sx={{
           display: { xs: 'flex', md: 'none' },
