@@ -77,6 +77,9 @@ const pokemonsSlice = createSlice({
     },
     clearTypes: (state) => {
       state.selectedTypes = []
+      state.pokemons = state.allPokemons
+      state.data = state.allPokemons
+      state.totalPages = getTotalPages(state.pokemons.length, state.itemsPerPage)
     },
     resetSearch: (state) => {
       state.searchValue = ''

@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import {
-  selectType,
-  setCurrentPage,
-  unselectType
+  selectType, unselectType
 } from '../../redux/slices/pokemons/pokemonsSlice'
 
 const TypeTag = ({ color, name }) => {
@@ -20,7 +18,6 @@ const TypeTag = ({ color, name }) => {
     } else {
       dispatch(unselectType(name))
     }
-    dispatch(setCurrentPage(1))
   }
 
   return (

@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { Subtitle } from '../../pages/PokemonInfo'
 import {
-  fetchPokemons,
   fetchPokemonsWithTypes
 } from '../../redux/slices/pokemons/asyncActions'
 import {
@@ -38,7 +37,6 @@ const SelectTypes = () => {
         <Box
           onClick={() => {
             dispatch(clearTypes())
-            dispatch(fetchPokemons())
             dispatch(setCurrentPage(1))
           }}
           sx={{

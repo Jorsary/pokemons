@@ -22,7 +22,7 @@ const Home = () => {
     selectedTypes,
     itemsPerPage,
     currentPage,
-    data,
+    allPokemons,
     searchValue
   } = useAppSelector((state) => state.pokemon)
 
@@ -55,7 +55,7 @@ const Home = () => {
       dispatch(searchByName())
       dispatch(setCurrentPage(currentPage))
     }
-  }, [data])
+  }, [allPokemons])
 
   return (
     <Container maxWidth="lg" >

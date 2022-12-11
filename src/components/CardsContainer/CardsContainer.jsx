@@ -8,23 +8,22 @@ const CardsContainer = () => {
   const { result } = useAppSelector(state => state.pokemon)
   const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
-    async function fetchPokemons () {
+    setPokemonsData([])
+    if (result && result.length) {
       setIsLoading(true)
-      setPokemonsData([])
-      const res = []
+      const promises = []
       for (const item of result) {
-        const responce = await fetch(item.url)
-        const { name, types, sprites } = await responce.json()
-        res.push({ name, types, sprites })
+        promises.push(fetch(item.url).then((responce) => responce.json()))
       }
-      setIsLoading(false)
-      return res
-    }
+      Promise.all(promises)
 
-    if (result) {
-      fetchPokemons().then(setPokemonsData)
+        .then((responces) => setPokemonsData(responces))
     }
   }, [result])
+
+  useEffect(() => {
+    if (pokemonsData.length > 0)setIsLoading(false)
+  }, [pokemonsData])
 
   return (
     <>
