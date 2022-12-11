@@ -18,7 +18,7 @@ const SelectTypes = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    selectedTypes.length ? dispatch(fetchPokemonsWithTypes({ selectedTypes })) : dispatch(fetchPokemons())
+    selectedTypes.length && dispatch(fetchPokemonsWithTypes({ selectedTypes }))
   }, [selectedTypes])
 
   return (

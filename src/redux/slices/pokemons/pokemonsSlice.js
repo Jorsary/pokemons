@@ -2,6 +2,7 @@ import { createSlice, current } from '@reduxjs/toolkit'
 import { fetchPokemons, fetchPokemonsWithTypes } from './asyncActions'
 
 const initialState = {
+  allPokemons: null,
   isLoading: false,
   data: null,
   error: '',
@@ -15,14 +16,21 @@ const initialState = {
   searchValue: ''
 }
 
+function getTotalPages (pokemonsAmount, itemsPerPage) {
+  return Math.ceil(pokemonsAmount / itemsPerPage)
+}
+
+function getCurrentPokemons (pokemons, itemsPerPage, currentPage) {
+  return pokemons.slice(
+    itemsPerPage * currentPage - itemsPerPage,
+    itemsPerPage * currentPage
+  )
+}
+
 const pokemonsSlice = createSlice({
   name: 'pokemon',
   initialState,
   reducers: {
-    setPokemonsFromData: (state) => {
-      state.pokemons = state.data
-      state.totalPages = Math.ceil(state.pokemons.length / state.itemsPerPage)
-    },
     setSearchValue: (state, action) => {
       state.searchValue = action.payload
     },
@@ -31,27 +39,22 @@ const pokemonsSlice = createSlice({
         item.name.includes(state.searchValue.toLowerCase())
       )
       state.pokemons = founded
-      state.totalPages = Math.ceil(state.pokemons.length / state.itemsPerPage)
+      state.totalPages = getTotalPages(state.pokemons.length, state.itemsPerPage)
       if (state.totalPages < state.currentPage) {
         state.currentPage = 1
       }
-      state.result = state.pokemons.slice(
-        state.itemsPerPage * state.currentPage - state.itemsPerPage,
-        state.itemsPerPage * state.currentPage
-      )
+      state.result = getCurrentPokemons(state.pokemons, state.itemsPerPage, state.currentPage)
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
       if (state.result) {
-        state.result = state.pokemons.slice(
-          state.itemsPerPage * state.currentPage - state.itemsPerPage,
-          state.itemsPerPage * state.currentPage
-        )
+        state.result = getCurrentPokemons(state.pokemons, state.itemsPerPage, state.currentPage)
       }
     },
     setItemsPerPage: (state, action) => {
       state.itemsPerPage = action.payload
-      state.totalPages = Math.ceil(state.pokemons.length / state.itemsPerPage)
+      state.totalPages = getTotalPages(state.pokemons.length, state.itemsPerPage)
+
       state.result = state.pokemons.slice(0, state.itemsPerPage)
       if (state.currentPage > state.totalPages) {
         state.currentPage = 1
@@ -66,6 +69,11 @@ const pokemonsSlice = createSlice({
       if (current(state.selectedTypes).includes(action.payload)) {
         state.selectedTypes = current(state.selectedTypes).filter((item) => item !== action.payload)
       }
+      if (state.selectedTypes.length === 0) {
+        state.pokemons = state.allPokemons
+        state.countPokemons = state.allPokemons.length
+        state.totalPages = getTotalPages(state.pokemons.length, state.itemsPerPage)
+      }
     },
     clearTypes: (state) => {
       state.selectedTypes = []
@@ -73,18 +81,13 @@ const pokemonsSlice = createSlice({
     resetSearch: (state) => {
       state.searchValue = ''
       state.pokemons = state.data
-      state.totalPages = Math.ceil(state.pokemons.length / state.itemsPerPage)
-      state.result = state.pokemons.slice(
-        state.itemsPerPage * state.currentPage - state.itemsPerPage,
-        state.itemsPerPage * state.currentPage
-      )
-    },
-    setLoading: (state, action) => {
-      state.isLoading = action.payload
+      state.totalPages = getTotalPages(state.pokemons.length, state.itemsPerPage)
+      state.result = getCurrentPokemons(state.pokemons, state.itemsPerPage, state.currentPage)
     }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPokemons.fulfilled, (state, action) => {
+      state.allPokemons = action.payload.results
       state.countPokemons = action.payload.count
       state.totalPages = Math.ceil(state.countPokemons / state.itemsPerPage)
       state.isLoading = false
@@ -129,13 +132,12 @@ export const {
   setItemsPerPage,
   setCurrentPage,
   searchByName,
-  setPokemonsFromData,
   setType,
   selectType,
   clearTypes,
   setSearchValue,
   resetSearch,
-  setLoading, unselectType
+  unselectType
 } = pokemonsSlice.actions
 
 export const pokemonsReducer = pokemonsSlice.reducer

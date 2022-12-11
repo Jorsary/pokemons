@@ -4,10 +4,7 @@ import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import {
   resetSearch,
-  searchByName,
-  setCurrentPage,
-  setPokemonsFromData,
-  setSearchValue
+  searchByName, setSearchValue
 } from '../../redux/slices/pokemons/pokemonsSlice'
 const Search = () => {
   const dispatch = useAppDispatch()
@@ -33,8 +30,7 @@ const Search = () => {
       value={searchValue}
       onChange={(e) => {
         if (e.target.value === '') {
-          dispatch(setPokemonsFromData())
-          dispatch(setCurrentPage(1))
+          dispatch(resetSearch())
         }
         dispatch(setSearchValue(e.target.value))
       }}
