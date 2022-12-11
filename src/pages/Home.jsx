@@ -18,7 +18,6 @@ import {
 const Home = () => {
   const {
     result,
-    pokemons,
     selectedTypes,
     itemsPerPage,
     currentPage,
@@ -49,11 +48,11 @@ const Home = () => {
     types.forEach((type) => {
       dispatch(selectType(type))
     })
-    if (pokemons) {
-      dispatch(setItemsPerPage(itemsPerPage))
-      dispatch(setSearchValue(search))
+    if (allPokemons) {
+      itemsPerPage && dispatch(setItemsPerPage(itemsPerPage))
+      search && dispatch(setSearchValue(search))
       dispatch(searchByName())
-      dispatch(setCurrentPage(currentPage))
+      currentPage && dispatch(setCurrentPage(currentPage))
     }
   }, [allPokemons])
 
