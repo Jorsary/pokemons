@@ -1,33 +1,21 @@
 import styled from '@emotion/styled'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import {
-  Box,
-  Card,
-  Container,
-  IconButton,
-  LinearProgress,
-  Skeleton,
-  Typography
+  Container, Typography
 } from '@mui/material'
-import { linearProgressClasses } from '@mui/material/LinearProgress'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useAppSelector } from '../hooks/redux'
-import pokeball from '../images/Pokeball.png'
-import { PokemonStats, pokemonTypes } from '../utils/constants'
+import React from 'react'
 
-const BorderLinearProgress = styled(LinearProgress)(({ theme, props }) => ({
-  height: 5,
-  borderRadius: 5,
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor:
-      theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800]
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: props.main
-  }
-}))
+// const BorderLinearProgress = styled(LinearProgress)(({ theme, props }) => ({
+//   height: 5,
+//   borderRadius: 5,
+//   [`&.${linearProgressClasses.colorPrimary}`]: {
+//     backgroundColor:
+//       theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800]
+//   },
+//   [`& .${linearProgressClasses.bar}`]: {
+//     borderRadius: 5,
+//     backgroundColor: props.main
+//   }
+// }))
 
 export const Subtitle = styled(Typography)(() => ({
   fontWeight: 500,
@@ -40,26 +28,9 @@ export const Subtitle = styled(Typography)(() => ({
 }))
 
 const PokemonInfo = () => {
-  const { pokemons } = useAppSelector((state) => state.pokemon)
-  const [data, setData] = useState()
-  const [loading, setLoading] = useState(false)
-  const { id } = useParams()
-  const push = useNavigate()
-
-  useEffect(() => {
-    const fetchPokemon = async () => setLoading(true)
-    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-      .then((res) => res.json())
-      .then((data) => setData(data))
-      .finally(() => {
-        setLoading(false)
-      })
-    fetchPokemon()
-  }, [pokemons])
-
   return (
     <Container maxWidth="sm" sx={{ margin: '20px auto 20px auto' }}>
-      {data
+      {/* {data
         ? (
         <>
           <Box
@@ -235,7 +206,7 @@ const PokemonInfo = () => {
           width={'100%'}
           height={'800px'}
         ></Skeleton>
-          )}
+          )} */}
     </Container>
   )
 }

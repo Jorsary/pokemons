@@ -1,43 +1,45 @@
+import { useQuery } from '@apollo/client'
 import { Box } from '@mui/material'
 import { Container } from '@mui/system'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { COUNT_POKEMON, POKEMONS_WITH_TYPES } from '../apollo/pokemons'
 import { CardsContainer } from '../components/CardsContainer/CardsContainer'
 import { Paginator } from '../components/Paginator/Paginator'
 import { Search } from '../components/Search/Search'
 import { SelectTypes } from '../components/SelectTypes/SelectTypes'
-import { useAppDispatch, useAppSelector } from '../hooks/redux'
-import {
-  searchByName,
-  selectType,
-  setCurrentPage,
-  setItemsPerPage,
-  setSearchValue
-} from '../redux/slices/pokemons/pokemonsSlice'
 
 const Home = () => {
-  const {
-    result,
-    selectedTypes,
-    itemsPerPage,
-    currentPage,
-    allPokemons,
-    searchValue
-  } = useAppSelector((state) => state.pokemon)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedTypes, setSelectedTypes] = useState([])
+  const [searchValue, setSearchValue] = useState('')
 
-  const dispatch = useAppDispatch()
+  const { data: pokemons, loading: isLoadingPokemons } = useQuery(POKEMONS_WITH_TYPES, {
+    variables: {
+      offset: itemsPerPage * (currentPage - 1),
+      limit: itemsPerPage,
+      type: `(${selectedTypes.join('|')})`,
+      name: `(${searchValue.toLowerCase()})`
+    }
+  })
+
+  const { data: allPokemons, loading: isLoadingCountPokemons } = useQuery(COUNT_POKEMON, {
+    variables: {
+      type: `(${selectedTypes.join('|')})`,
+      name: `(${searchValue})`
+    }
+  })
 
   const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    if (result) {
-      setSearchParams({
-        types: selectedTypes,
-        currentPage: currentPage || 1,
-        itemsPerPage: itemsPerPage || 10,
-        searchValue: searchValue || []
-      })
-    }
+    setSearchParams({
+      types: selectedTypes,
+      currentPage: currentPage || 1,
+      itemsPerPage: itemsPerPage || 10,
+      searchValue: searchValue || []
+    })
   }, [selectedTypes, itemsPerPage, searchValue, currentPage])
 
   useEffect(() => {
@@ -45,16 +47,11 @@ const Home = () => {
     const currentPage = Number(searchParams.get('currentPage'))
     const itemsPerPage = Number(searchParams.get('itemsPerPage'))
     const search = searchParams.get('searchValue') || ''
-    types.forEach((type) => {
-      dispatch(selectType(type))
-    })
-    if (allPokemons) {
-      itemsPerPage && dispatch(setItemsPerPage(itemsPerPage))
-      search && dispatch(setSearchValue(search))
-      dispatch(searchByName())
-      currentPage && dispatch(setCurrentPage(currentPage))
-    }
-  }, [allPokemons])
+    setCurrentPage(currentPage)
+    setItemsPerPage(itemsPerPage)
+    setSearchValue(search)
+    setSelectedTypes(types)
+  }, [])
 
   return (
     <Container maxWidth="lg" >
@@ -69,13 +66,11 @@ const Home = () => {
           gap: '15px'
         }}
       >
-        <SelectTypes />
-        <Search />
+        <SelectTypes selectedTypes={selectedTypes} onSelectTypes={setSelectedTypes} />
+        <Search searchValue={searchValue} onChangeSearchValue={setSearchValue} />
       </Box>
-      <Paginator />
-
-        <CardsContainer />
-
+      <Paginator totalPages={allPokemons && Math.ceil(allPokemons.pokemons.length / itemsPerPage)} currentPage={currentPage} onChangeItemsPerPage={setItemsPerPage} onChangeCurrentPage={setCurrentPage} />
+      <CardsContainer totalCount={allPokemons && allPokemons.pokemons.length} itemsPerPage={itemsPerPage} pokemons={pokemons} isLoading={isLoadingCountPokemons || isLoadingPokemons}/>
       <Box
         sx={{
           display: { xs: 'flex', md: 'none' },
@@ -84,7 +79,6 @@ const Home = () => {
           justifyContent: 'center'
         }}
       >
-        <Paginator />
       </Box>
     </Container>
   )

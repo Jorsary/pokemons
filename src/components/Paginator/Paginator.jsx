@@ -1,25 +1,16 @@
 import { MenuItem, Pagination, Select } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import {
-  setCurrentPage,
-  setItemsPerPage
-} from '../../redux/slices/pokemons/pokemonsSlice'
+import PropTypes from 'prop-types'
 
-const Paginator = () => {
-  const { itemsPerPage, totalPages, currentPage } = useAppSelector(
-    (state) => state.pokemon
-  )
-  const dispatch = useAppDispatch()
-
-  const handleChange = (event, value) => {
-    dispatch(setCurrentPage(value))
+const Paginator = ({ totalPages, currentPage, onChangeItemsPerPage, onChangeCurrentPage }) => {
+  const handleChangeItemsPerPage = (e) => {
+    onChangeItemsPerPage(e.target.value)
+  }
+  const handleChangeCurrentPage = (e, value) => {
+    onChangeCurrentPage(value)
   }
 
-  const handleItemsPerPageChange = (event) => {
-    dispatch(setItemsPerPage(event.target.value))
-  }
   return (
     <Box
       sx={{
@@ -32,8 +23,7 @@ const Paginator = () => {
     >
       <Select
         variant="standard"
-        value={itemsPerPage}
-        onChange={handleItemsPerPageChange}
+        onChange={handleChangeItemsPerPage}
         defaultValue={10}
       >
         <MenuItem value={10}>10</MenuItem>
@@ -44,10 +34,12 @@ const Paginator = () => {
         size="small"
         count={totalPages}
         page={currentPage}
-        onChange={handleChange}
+        onChange={handleChangeCurrentPage}
       />
     </Box>
   )
 }
+
+Paginator.propTypes = { totalPages: PropTypes.number, currentPage: PropTypes.number, onChangeItemsPerPage: PropTypes.func, onChangeCurrentPage: PropTypes.func }
 
 export { Paginator }

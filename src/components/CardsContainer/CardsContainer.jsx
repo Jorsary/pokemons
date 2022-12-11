@@ -1,37 +1,15 @@
 import { Box, Skeleton } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useAppSelector } from '../../hooks/redux'
+import React from 'react'
 import { CardPokemon } from '../CardPokemon/CardPokemon'
+import PropTypes from 'prop-types'
 
-const CardsContainer = () => {
-  const [pokemonsData, setPokemonsData] = useState([])
-  const { result } = useAppSelector(state => state.pokemon)
-  const [isLoading, setIsLoading] = useState(false)
-  useEffect(() => {
-    setPokemonsData([])
-    if (result && result.length) {
-      setIsLoading(true)
-      const promises = []
-      for (const item of result) {
-        promises.push(fetch(item.url).then((responce) => responce.json()))
-      }
-      Promise.all(promises)
-
-        .then((responces) => setPokemonsData(responces))
-    }
-  }, [result])
-
-  useEffect(() => {
-    if (pokemonsData.length > 0)setIsLoading(false)
-  }, [pokemonsData])
-
+const CardsContainer = ({ totalCount, itemsPerPage, isLoading, pokemons }) => {
   return (
-    <>
+    <Box sx={{ paddingBottom: '20px' }}>
     <Box
         sx={{
           display: ' grid',
           gap: '15px',
-          paddingBottom: '20px',
           gridTemplateColumns: {
             lg: 'repeat(5,1fr)',
             md: 'repeat(3, 1fr)',
@@ -39,19 +17,24 @@ const CardsContainer = () => {
             xs: '1fr'
           }
         }}
-      >{pokemonsData &&
-      pokemonsData.map((item) => <CardPokemon key={item.name} {...item} />)}
-      {[...Array(10)].map((value, i) => (
-      <Skeleton
-      key={i}
-      sx={{ borderRadius: '5px', display: !isLoading ? 'none' : 'block' }}
-      variant="rectangular"
-      width={'100%'}
-      height={300}
-    />))}
+      >
+        {pokemons &&
+        pokemons.pokemons.map((item) => <CardPokemon key={item.name} {...item} />)}
+
+      {[...Array(itemsPerPage)].map((value, i) => (
+        <Skeleton
+        key={i}
+        sx={{ borderRadius: '5px', display: !isLoading ? 'none' : 'block' }}
+        variant="rectangular"
+        width={'100%'}
+        height={300}
+        />))}
     </Box>
-    {<Box sx={{ textAlign: 'center', display: result && !result.length ? 'block' : 'none' }}>No such pokemon found</Box>}</>
+        <Box sx={{ textAlign: 'center', display: !totalCount && !isLoading ? 'block' : 'none' }}>No such pokemon found</Box>
+    </Box>
   )
 }
+
+CardsContainer.propTypes = { totalCount: PropTypes.number, itemsPerPage: PropTypes.number, isLoading: PropTypes.bool, pokemons: PropTypes.object }
 
 export { CardsContainer }

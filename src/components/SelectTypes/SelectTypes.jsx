@@ -1,25 +1,11 @@
 import { Box } from '@mui/system'
-import React, { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import React from 'react'
 import { Subtitle } from '../../pages/PokemonInfo'
-import {
-  fetchPokemonsWithTypes
-} from '../../redux/slices/pokemons/asyncActions'
-import {
-  clearTypes,
-  setCurrentPage
-} from '../../redux/slices/pokemons/pokemonsSlice'
 import { pokemonTypes } from '../../utils/constants'
 import { TypeTag } from '../TypeTag/TypeTag'
+import PropTypes from 'prop-types'
 
-const SelectTypes = () => {
-  const { selectedTypes } = useAppSelector((state) => state.pokemon)
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    selectedTypes.length && dispatch(fetchPokemonsWithTypes({ selectedTypes }))
-  }, [selectedTypes])
-
+const SelectTypes = ({ selectedTypes, onSelectTypes }) => {
   return (
     <Box sx={{ maxWidth: '800px' }}>
       <Subtitle sx={{ paddingBottom: '10px' }}>Filter by type:</Subtitle>
@@ -32,12 +18,11 @@ const SelectTypes = () => {
         }}
       >
         {Object.entries(pokemonTypes).map((type, i) => (
-          <TypeTag key={i} name={type[1].name} color={type[1].color}/>
+          <TypeTag selectedTypes={selectedTypes} onSelectTypes={onSelectTypes} key={i} name={type[1].name} color={type[1].color}/>
         ))}
         <Box
           onClick={() => {
-            dispatch(clearTypes())
-            dispatch(setCurrentPage(1))
+            onSelectTypes([])
           }}
           sx={{
             background: 'gray',
@@ -57,5 +42,7 @@ const SelectTypes = () => {
     </Box>
   )
 }
+
+SelectTypes.propTypes = { selectedTypes: PropTypes.array, onSelectTypes: PropTypes.func }
 
 export { SelectTypes }

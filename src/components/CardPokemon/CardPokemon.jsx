@@ -5,9 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import ImgPokeball from '../../images/Pokeball.png'
 import { pokemonTypes } from '../../utils/constants'
 
-const CardPokemon = ({ name, types, sprites }) => {
+const CardPokemon = ({ name, types, id }) => {
   const [isLoading, setIsLoading] = useState(true)
-
   const push = useNavigate()
 
   return (
@@ -47,7 +46,7 @@ const CardPokemon = ({ name, types, sprites }) => {
           setIsLoading(false)
           e.target.src = ImgPokeball
         }}
-        src={sprites.other['official-artwork'].front_default}
+        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
       />
       <Skeleton
       sx={{ borderRadius: '5px', display: !isLoading ? 'none' : 'block' }}
@@ -101,6 +100,6 @@ const CardPokemon = ({ name, types, sprites }) => {
   </>)
 }
 
-CardPokemon.propTypes = { name: PropTypes.string, types: PropTypes.array, sprites: PropTypes.object }
+CardPokemon.propTypes = { name: PropTypes.string, types: PropTypes.array, id: PropTypes.number }
 
 export { CardPokemon }

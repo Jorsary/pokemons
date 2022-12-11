@@ -1,22 +1,14 @@
 import { Box } from '@mui/system'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import {
-  selectType, unselectType
-} from '../../redux/slices/pokemons/pokemonsSlice'
 
-const TypeTag = ({ color, name }) => {
-  const { selectedTypes } = useAppSelector((state) => state.pokemon)
-
+const TypeTag = ({ selectedTypes, onSelectTypes, color, name }) => {
   const isSelect = selectedTypes.includes(name)
-  const dispatch = useAppDispatch()
-
   const toggleType = () => {
-    if (!isSelect) {
-      dispatch(selectType(name))
+    if (isSelect) {
+      onSelectTypes(prev => prev.filter((type) => type !== name))
     } else {
-      dispatch(unselectType(name))
+      onSelectTypes(prev => [...prev, name])
     }
   }
 
@@ -45,6 +37,6 @@ const TypeTag = ({ color, name }) => {
     </Box>
   )
 }
-TypeTag.propTypes = { name: PropTypes.string, color: PropTypes.string }
+TypeTag.propTypes = { selectedTypes: PropTypes.array, onSelectTypes: PropTypes.func, name: PropTypes.string, color: PropTypes.string }
 
 export { TypeTag }
