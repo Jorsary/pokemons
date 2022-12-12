@@ -1,21 +1,28 @@
+import { useQuery } from '@apollo/client'
 import styled from '@emotion/styled'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import {
-  Container, Typography
+  Box,
+  Card,
+  Container, IconButton, LinearProgress, linearProgressClasses, Skeleton, Typography
 } from '@mui/material'
 import React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { POKEMON } from '../apollo/pokemons'
+import { PokemonStats, pokemonTypes } from '../utils/constants'
 
-// const BorderLinearProgress = styled(LinearProgress)(({ theme, props }) => ({
-//   height: 5,
-//   borderRadius: 5,
-//   [`&.${linearProgressClasses.colorPrimary}`]: {
-//     backgroundColor:
-//       theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800]
-//   },
-//   [`& .${linearProgressClasses.bar}`]: {
-//     borderRadius: 5,
-//     backgroundColor: props.main
-//   }
-// }))
+const BorderLinearProgress = styled(LinearProgress)(({ theme, props }) => ({
+  height: 5,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800]
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: props.main
+  }
+}))
 
 export const Subtitle = styled(Typography)(() => ({
   fontWeight: 500,
@@ -28,9 +35,19 @@ export const Subtitle = styled(Typography)(() => ({
 }))
 
 const PokemonInfo = () => {
+  const { id } = useParams()
+
+  const { data, loading } = useQuery(POKEMON, {
+    variables: {
+      name: `(${id})`
+    }
+  })
+
+  const push = useNavigate()
+
   return (
     <Container maxWidth="sm" sx={{ margin: '20px auto 20px auto' }}>
-      {/* {data
+      {data
         ? (
         <>
           <Box
@@ -42,7 +59,9 @@ const PokemonInfo = () => {
               justifyContent: 'space-between'
             }}
           >
-            <IconButton onClick={() => push(-1)}>
+            <IconButton
+            onClick={() => push(-1)}
+            >
               <ArrowBackIcon />
             </IconButton>
             <Box
@@ -52,7 +71,7 @@ const PokemonInfo = () => {
               }}
             >
               {data &&
-                data.types.map((element, i) => (
+                data.pokemon[0].types.map((element, i) => (
                   <Box
                     key={i}
                     sx={{
@@ -89,7 +108,7 @@ const PokemonInfo = () => {
                 textTransform: 'uppercase'
               }}
             >
-              {data.name}
+              {data.pokemon.name}
             </Typography>
             <img
               style={{
@@ -98,8 +117,8 @@ const PokemonInfo = () => {
                 width: '100%',
                 display: loading ? 'none' : 'block'
               }}
-              onError={(e) => (e.target.src = pokeball)}
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
+              // onError={(e) => (e.target.src = pokeball)}
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.pokemon[0].id}.png`}
             />
             <Box sx={{ display: 'flex', alignSelf: 'stretch', gap: '20px' }}>
               <Box
@@ -108,7 +127,7 @@ const PokemonInfo = () => {
                 }}
               >
                 <Subtitle>Abilities:</Subtitle>
-                {data.abilities.map((item, i) => (
+                {data.pokemon[0].abilities.map((item, i) => (
                   <Box
                     key={i}
                     sx={{
@@ -157,7 +176,7 @@ const PokemonInfo = () => {
                 }}
               >
                 <Subtitle>Stats:</Subtitle>
-                {data.stats.map((item, i) => (
+                {data.pokemon[0].stats.map((item, i) => (
                   <Box key={i}>
                     <Box
                       sx={{ display: 'flex', justifyContent: 'space-between' }}
@@ -206,7 +225,7 @@ const PokemonInfo = () => {
           width={'100%'}
           height={'800px'}
         ></Skeleton>
-          )} */}
+          )}
     </Container>
   )
 }

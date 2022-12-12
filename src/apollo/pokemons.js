@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client'
 
-
-export const POKEMONS_WITH_TYPES= gql`
+export const POKEMONS_WITH_TYPES = gql`
   query MyQuery($offset: Int = 0,$limit: Int = 10,$type: String! = "",$name: String ="") {
     pokemons:pokemon_v2_pokemon(where: {name: {_regex: $name},pokemon_v2_pokemontypes: {pokemon_v2_type: {name: {_regex: $type}}}} ,offset: $offset, limit: $limit) {
       id
@@ -31,7 +30,29 @@ export const COUNT_POKEMON = gql`
   }
 `
 
-
-
-
-
+export const POKEMON = gql`
+  query MyQuery($name: String ="") {
+    pokemon:pokemon_v2_pokemon(where: {name: {_regex: $name}}){
+      name
+      id
+      height
+      weight
+      types: pokemon_v2_pokemontypes {
+        type: pokemon_v2_type {
+          name
+        }
+      }
+      stats:pokemon_v2_pokemonstats {
+        base_stat
+        stat:pokemon_v2_stat {
+          name
+        }
+      }
+      abilities:pokemon_v2_pokemonabilities {
+      ability:pokemon_v2_ability {
+        name
+      }
+    }
+    }
+  }
+`

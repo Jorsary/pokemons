@@ -27,11 +27,20 @@ const Home = () => {
   const { data: allPokemons, loading: isLoadingCountPokemons } = useQuery(COUNT_POKEMON, {
     variables: {
       type: `(${selectedTypes.join('|')})`,
-      name: `(${searchValue})`
+      name: `(${searchValue.toLowerCase()})`
     }
   })
 
   const [searchParams, setSearchParams] = useSearchParams()
+
+  useEffect(() => {
+    if (allPokemons) {
+      const total = Math.ceil(allPokemons.pokemons.length / itemsPerPage)
+      if (total < currentPage) {
+        setCurrentPage(1)
+      }
+    }
+  }, [selectedTypes, searchValue])
 
   useEffect(() => {
     setSearchParams({
