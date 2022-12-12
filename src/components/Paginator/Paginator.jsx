@@ -1,6 +1,6 @@
 import { MenuItem, Pagination, Select } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import {
   setCurrentPage,
@@ -20,6 +20,11 @@ const Paginator = () => {
   const handleItemsPerPageChange = (event) => {
     dispatch(setItemsPerPage(event.target.value))
   }
+
+  useEffect(() => {
+    if (currentPage > totalPages) { dispatch(setCurrentPage(1)) }
+  }, [totalPages, currentPage, itemsPerPage])
+
   return (
     <Box
       sx={{

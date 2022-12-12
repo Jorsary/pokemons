@@ -40,9 +40,6 @@ const pokemonsSlice = createSlice({
       )
       state.pokemons = founded
       state.totalPages = getTotalPages(state.pokemons.length, state.itemsPerPage)
-      if (state.totalPages < state.currentPage) {
-        state.currentPage = 1
-      }
       state.result = getCurrentPokemons(state.pokemons, state.itemsPerPage, state.currentPage)
     },
     setCurrentPage: (state, action) => {
@@ -54,11 +51,7 @@ const pokemonsSlice = createSlice({
     setItemsPerPage: (state, action) => {
       state.itemsPerPage = action.payload
       state.totalPages = getTotalPages(state.pokemons.length, state.itemsPerPage)
-
       state.result = state.pokemons.slice(0, state.itemsPerPage)
-      if (state.currentPage > state.totalPages) {
-        state.currentPage = 1
-      }
     },
     selectType: (state, action) => {
       if (!current(state.selectedTypes).includes(action.payload)) {
@@ -117,6 +110,12 @@ const pokemonsSlice = createSlice({
       action.payload.forEach((item) => {
         state.pokemons.push(item.pokemon)
       })
+      state.pokemons = state.pokemons.reduce((o, i) => {
+        if (!o.find(v => v.name === i.name)) {
+          o.push(i)
+        }
+        return o
+      }, [])
       state.data = state.pokemons
       state.result = state.pokemons.slice(0, state.itemsPerPage)
     })
