@@ -7,6 +7,7 @@ const Search = ({ searchValue, onChangeSearchValue }) => {
   const onReset = () => {
     onChangeSearchValue('')
   }
+
   return (
     <TextField
       value={searchValue}

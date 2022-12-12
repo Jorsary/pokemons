@@ -34,10 +34,6 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    if (allPokemons) { setCurrentPage(1) }
-  }, [selectedTypes, searchValue])
-
-  useEffect(() => {
     setSearchParams({
       types: selectedTypes,
       currentPage: currentPage || 1,
@@ -51,10 +47,10 @@ const Home = () => {
     const currentPage = Number(searchParams.get('currentPage'))
     const itemsPerPage = Number(searchParams.get('itemsPerPage'))
     const search = searchParams.get('searchValue') || ''
-    setCurrentPage(currentPage)
-    setItemsPerPage(itemsPerPage)
-    setSearchValue(search)
-    setSelectedTypes(types)
+    currentPage && setCurrentPage(currentPage)
+    itemsPerPage && setItemsPerPage(itemsPerPage)
+    search && setSearchValue(search)
+    types && setSelectedTypes(types)
   }, [])
 
   return (

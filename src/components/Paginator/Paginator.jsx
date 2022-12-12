@@ -1,6 +1,6 @@
 import { MenuItem, Pagination, Select } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 const Paginator = ({ totalPages, currentPage, onChangeItemsPerPage, onChangeCurrentPage }) => {
@@ -10,6 +10,10 @@ const Paginator = ({ totalPages, currentPage, onChangeItemsPerPage, onChangeCurr
   const handleChangeCurrentPage = (e, value) => {
     onChangeCurrentPage(value)
   }
+
+  useEffect(() => {
+    onChangeCurrentPage(totalPages < currentPage ? 1 : currentPage)
+  }, [totalPages, currentPage])
 
   return (
     <Box

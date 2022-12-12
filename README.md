@@ -14,7 +14,8 @@
 ## Используемые технологии: 
 
 * ReactJS
-* Redux Toolkit
+* Apollo client
+* GraphQL
 * HTML/CSS
 * WebPack
 * MaterialUI
@@ -22,7 +23,7 @@
 
 ## Ссылки
 
-* [Ссылка на Vercel](https://pokemons-jorsary.vercel.app/)
+* [Ссылка на Vercel](https://pokemons-git-graphql-jorsary.vercel.app/)
 
 ## Сборка и разработка проекта
 
