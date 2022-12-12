@@ -1,5 +1,6 @@
 import { Box } from '@mui/system'
 import React, { useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { Subtitle } from '../../pages/PokemonInfo'
 import {
@@ -15,11 +16,18 @@ import { TypeTag } from '../TypeTag/TypeTag'
 const SelectTypes = () => {
   const { selectedTypes } = useAppSelector((state) => state.pokemon)
   const dispatch = useAppDispatch()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    selectedTypes.length && dispatch(fetchPokemonsWithTypes({ selectedTypes }))
+    if (selectedTypes.length) {
+      dispatch(fetchPokemonsWithTypes({ selectedTypes }))
+      searchParams.set('types', selectedTypes)
+      setSearchParams(searchParams)
+    } else {
+      searchParams.delete('types', selectedTypes)
+      setSearchParams(searchParams)
+    }
   }, [selectedTypes])
-
   return (
     <Box sx={{ maxWidth: '800px' }}>
       <Subtitle sx={{ paddingBottom: '10px' }}>Filter by type:</Subtitle>

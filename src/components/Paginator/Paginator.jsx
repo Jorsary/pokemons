@@ -1,6 +1,7 @@
 import { MenuItem, Pagination, Select } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import {
   setCurrentPage,
@@ -12,13 +13,19 @@ const Paginator = () => {
     (state) => state.pokemon
   )
   const dispatch = useAppDispatch()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const handleChange = (event, value) => {
     dispatch(setCurrentPage(value))
+    searchParams.set('currentPage', value)
+    setSearchParams(searchParams)
   }
 
   const handleItemsPerPageChange = (event) => {
+    console.log(event.target.value)
     dispatch(setItemsPerPage(event.target.value))
+    searchParams.set('itemsPerPage', event.target.value)
+    setSearchParams(searchParams)
   }
 
   useEffect(() => {
@@ -39,7 +46,6 @@ const Paginator = () => {
         variant="standard"
         value={itemsPerPage}
         onChange={handleItemsPerPageChange}
-        defaultValue={10}
       >
         <MenuItem value={10}>10</MenuItem>
         <MenuItem value={20}>20</MenuItem>

@@ -44,13 +44,13 @@ const pokemonsSlice = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
-      if (state.pokemons) {
+      if (state.result) {
         state.result = getCurrentPokemons(state.pokemons, state.itemsPerPage, state.currentPage)
       }
     },
     setItemsPerPage: (state, action) => {
       state.itemsPerPage = action.payload
-      state.totalPages = getTotalPages(state.pokemons.length, state.itemsPerPage)
+      state.totalPages = getTotalPages(state.countPokemons, state.itemsPerPage)
       state.result = state.pokemons.slice(0, state.itemsPerPage)
     },
     selectType: (state, action) => {

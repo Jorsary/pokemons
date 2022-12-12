@@ -14,6 +14,7 @@ export const fetchPokemonsWithTypes = createAsyncThunk(
   'pokemonsType/fetchAll',
   async function ({ selectedTypes }) {
     const result = []
+    console.log(selectedTypes)
     for (const type of selectedTypes) {
       const responce = await fetch(
         `https://pokeapi.co/api/v2/type/${type}`
