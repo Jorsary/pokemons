@@ -46,14 +46,14 @@ const Home = () => {
     const currentPage = Number(searchParams.get('currentPage'))
     const itemsPerPage = Number(searchParams.get('itemsPerPage'))
     const search = searchParams.get('searchValue') || ''
-    types.forEach((type) => {
+    types && types.forEach((type) => {
       dispatch(selectType(type))
     })
     if (pokemons) {
-      dispatch(setItemsPerPage(itemsPerPage))
-      dispatch(setSearchValue(search))
-      dispatch(searchByName())
-      dispatch(setCurrentPage(currentPage))
+      itemsPerPage && dispatch(setItemsPerPage(itemsPerPage))
+      search && dispatch(setSearchValue(search))
+      search && dispatch(searchByName())
+      currentPage && dispatch(setCurrentPage(currentPage))
     }
   }, [allPokemons])
 
