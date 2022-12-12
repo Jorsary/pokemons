@@ -9,7 +9,7 @@ const Search = ({ searchValue, onChangeSearchValue }) => {
   }
   return (
     <TextField
-    value={searchValue}
+      value={searchValue}
       onChange={(e) => { onChangeSearchValue(e.target.value) }}
       placeholder="Search"
       variant="standard"

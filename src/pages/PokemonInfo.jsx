@@ -6,9 +6,10 @@ import {
   Card,
   Container, IconButton, LinearProgress, linearProgressClasses, Skeleton, Typography
 } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { POKEMON } from '../apollo/pokemons'
+import pokeball from '../images/Pokeball.png'
 import { PokemonStats, pokemonTypes } from '../utils/constants'
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme, props }) => ({
@@ -36,19 +37,38 @@ export const Subtitle = styled(Typography)(() => ({
 
 const PokemonInfo = () => {
   const { id } = useParams()
+  const [isLoadingImg, setIsLoadingImg] = useState(true)
 
-  const { data, loading } = useQuery(POKEMON, {
+  const { data, loading, error } = useQuery(POKEMON, {
     variables: {
-      name: `(${id})`
+      name: id
     }
   })
 
   const push = useNavigate()
 
+  if (loading) {
+    return (
+      <Container maxWidth="sm" sx={{ margin: '20px auto 20px auto' }}>
+    <Skeleton
+          sx={{
+            borderRadius: '15px'
+          }}
+          variant="rectangular"
+          width={'100%'}
+          height={'800px'}
+        ></Skeleton>
+        </Container>)
+  }
+
+  if (data.pokemon.length === 0 || error) {
+    return (
+      <Typography variant='h5' sx={{ textAlign: 'center', padding: '30px' }}>Error,try again</Typography>
+    )
+  }
+
   return (
     <Container maxWidth="sm" sx={{ margin: '20px auto 20px auto' }}>
-      {data
-        ? (
         <>
           <Box
             sx={{
@@ -108,18 +128,28 @@ const PokemonInfo = () => {
                 textTransform: 'uppercase'
               }}
             >
-              {data.pokemon.name}
+              {data.pokemon[0].name}
             </Typography>
             <img
               style={{
                 maxWidth: '400px',
                 maxHeight: '400px',
                 width: '100%',
-                display: loading ? 'none' : 'block'
+                display: isLoadingImg ? 'none' : 'block'
               }}
-              // onError={(e) => (e.target.src = pokeball)}
+              onLoad={() => { setIsLoadingImg(false) }}
+              onError={(e) => (e.target.src = pokeball)}
               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.pokemon[0].id}.png`}
             />
+              <Skeleton
+                sx={{
+                  borderRadius: '15px',
+                  display: !isLoadingImg ? 'none' : 'block'
+                }}
+                variant="rectangular"
+                width={'100%'}
+                height={'400px'}
+              ></Skeleton>
             <Box sx={{ display: 'flex', alignSelf: 'stretch', gap: '20px' }}>
               <Box
                 sx={{
@@ -215,17 +245,6 @@ const PokemonInfo = () => {
             </Box>
           </Card>
         </>
-          )
-        : (
-        <Skeleton
-          sx={{
-            borderRadius: '15px'
-          }}
-          variant="rectangular"
-          width={'100%'}
-          height={'800px'}
-        ></Skeleton>
-          )}
     </Container>
   )
 }

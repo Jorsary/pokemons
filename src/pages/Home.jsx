@@ -34,12 +34,7 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    if (allPokemons) {
-      const total = Math.ceil(allPokemons.pokemons.length / itemsPerPage)
-      if (total < currentPage) {
-        setCurrentPage(1)
-      }
-    }
+    if (allPokemons) { setCurrentPage(1) }
   }, [selectedTypes, searchValue])
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { Box, Skeleton } from '@mui/material'
+import { Box, Skeleton, Typography } from '@mui/material'
 import React from 'react'
 import { CardPokemon } from '../CardPokemon/CardPokemon'
 import PropTypes from 'prop-types'
@@ -30,7 +30,7 @@ const CardsContainer = ({ totalCount, itemsPerPage, isLoading, pokemons }) => {
         height={300}
         />))}
     </Box>
-        <Box sx={{ textAlign: 'center', display: !totalCount && !isLoading ? 'block' : 'none' }}>No such pokemon found</Box>
+        <Typography variant='h5' sx={{ textAlign: 'center', display: !totalCount && !isLoading ? 'block' : 'none' }}>No such pokemon found</Typography>
     </Box>
   )
 }

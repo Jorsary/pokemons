@@ -32,7 +32,7 @@ export const COUNT_POKEMON = gql`
 
 export const POKEMON = gql`
   query MyQuery($name: String ="") {
-    pokemon:pokemon_v2_pokemon(where: {name: {_regex: $name}}){
+    pokemon:pokemon_v2_pokemon(where: {name: {_eq: $name}}){
       name
       id
       height
