@@ -44,7 +44,7 @@ const pokemonsSlice = createSlice({
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload
-      if (state.result) {
+      if (state.pokemons) {
         state.result = getCurrentPokemons(state.pokemons, state.itemsPerPage, state.currentPage)
       }
     },
@@ -117,7 +117,7 @@ const pokemonsSlice = createSlice({
         return o
       }, [])
       state.data = state.pokemons
-      state.result = state.pokemons.slice(0, state.itemsPerPage)
+      state.result = getCurrentPokemons(state.pokemons, state.itemsPerPage, state.currentPage)
     })
     builder.addCase(fetchPokemonsWithTypes.pending, (state) => {
       state.isLoading = true
