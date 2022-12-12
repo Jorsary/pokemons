@@ -1,18 +1,14 @@
+import { useQuery } from '@apollo/client'
 import styled from '@emotion/styled'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import {
   Box,
   Card,
-  Container,
-  IconButton,
-  LinearProgress,
-  Skeleton,
-  Typography
+  Container, IconButton, LinearProgress, linearProgressClasses, Skeleton, Typography
 } from '@mui/material'
-import { linearProgressClasses } from '@mui/material/LinearProgress'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useAppSelector } from '../hooks/redux'
+import { POKEMON } from '../apollo/pokemons'
 import pokeball from '../images/Pokeball.png'
 import { PokemonStats, pokemonTypes } from '../utils/constants'
 
@@ -40,27 +36,39 @@ export const Subtitle = styled(Typography)(() => ({
 }))
 
 const PokemonInfo = () => {
-  const { pokemons } = useAppSelector((state) => state.pokemon)
-  const [data, setData] = useState()
-  const [loading, setLoading] = useState(false)
   const { id } = useParams()
+  const [isLoadingImg, setIsLoadingImg] = useState(true)
+
+  const { data, loading, error } = useQuery(POKEMON, {
+    variables: {
+      name: id
+    }
+  })
+
   const push = useNavigate()
 
-  useEffect(() => {
-    const fetchPokemon = async () => setLoading(true)
-    fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-      .then((res) => res.json())
-      .then((data) => setData(data))
-      .finally(() => {
-        setLoading(false)
-      })
-    fetchPokemon()
-  }, [pokemons])
+  if (loading) {
+    return (
+      <Container maxWidth="sm" sx={{ margin: '20px auto 20px auto' }}>
+    <Skeleton
+          sx={{
+            borderRadius: '15px'
+          }}
+          variant="rectangular"
+          width={'100%'}
+          height={'800px'}
+        ></Skeleton>
+        </Container>)
+  }
+
+  if (data.pokemon.length === 0 || error) {
+    return (
+      <Typography variant='h5' sx={{ textAlign: 'center', padding: '30px' }}>Error,try again</Typography>
+    )
+  }
 
   return (
     <Container maxWidth="sm" sx={{ margin: '20px auto 20px auto' }}>
-      {data
-        ? (
         <>
           <Box
             sx={{
@@ -71,7 +79,9 @@ const PokemonInfo = () => {
               justifyContent: 'space-between'
             }}
           >
-            <IconButton onClick={() => push(-1)}>
+            <IconButton
+            onClick={() => push(-1)}
+            >
               <ArrowBackIcon />
             </IconButton>
             <Box
@@ -81,7 +91,7 @@ const PokemonInfo = () => {
               }}
             >
               {data &&
-                data.types.map((element, i) => (
+                data.pokemon[0].types.map((element, i) => (
                   <Box
                     key={i}
                     sx={{
@@ -118,18 +128,28 @@ const PokemonInfo = () => {
                 textTransform: 'uppercase'
               }}
             >
-              {data.name}
+              {data.pokemon[0].name}
             </Typography>
             <img
               style={{
                 maxWidth: '400px',
                 maxHeight: '400px',
                 width: '100%',
-                display: loading ? 'none' : 'block'
+                display: isLoadingImg ? 'none' : 'block'
               }}
+              onLoad={() => { setIsLoadingImg(false) }}
               onError={(e) => (e.target.src = pokeball)}
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.pokemon[0].id}.png`}
             />
+              <Skeleton
+                sx={{
+                  borderRadius: '15px',
+                  display: !isLoadingImg ? 'none' : 'block'
+                }}
+                variant="rectangular"
+                width={'100%'}
+                height={'400px'}
+              ></Skeleton>
             <Box sx={{ display: 'flex', alignSelf: 'stretch', gap: '20px' }}>
               <Box
                 sx={{
@@ -137,7 +157,7 @@ const PokemonInfo = () => {
                 }}
               >
                 <Subtitle>Abilities:</Subtitle>
-                {data.abilities.map((item, i) => (
+                {data.pokemon[0].abilities.map((item, i) => (
                   <Box
                     key={i}
                     sx={{
@@ -186,7 +206,7 @@ const PokemonInfo = () => {
                 }}
               >
                 <Subtitle>Stats:</Subtitle>
-                {data.stats.map((item, i) => (
+                {data.pokemon[0].stats.map((item, i) => (
                   <Box key={i}>
                     <Box
                       sx={{ display: 'flex', justifyContent: 'space-between' }}
@@ -225,17 +245,6 @@ const PokemonInfo = () => {
             </Box>
           </Card>
         </>
-          )
-        : (
-        <Skeleton
-          sx={{
-            borderRadius: '15px'
-          }}
-          variant="rectangular"
-          width={'100%'}
-          height={'800px'}
-        ></Skeleton>
-          )}
     </Container>
   )
 }

@@ -1,45 +1,24 @@
 import CloseIcon from '@mui/icons-material/Close'
 import { IconButton, TextField } from '@mui/material'
-import React, { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import {
-  resetSearch,
-  searchByName, setSearchValue
-} from '../../redux/slices/pokemons/pokemonsSlice'
-const Search = () => {
-  const dispatch = useAppDispatch()
-  const { searchValue } = useAppSelector((state) => state.pokemon)
+import PropTypes from 'prop-types'
+import React from 'react'
 
-  useEffect(() => {
-    if (searchValue) {
-      const timeoutId = setTimeout(() => {
-        dispatch(searchByName())
-      }, 1000)
-      return () => {
-        clearTimeout(timeoutId)
-      }
-    }
-  }, [searchValue])
-
-  const handleReset = (e) => {
-    dispatch(resetSearch())
+const Search = ({ searchValue, onChangeSearchValue }) => {
+  const onReset = () => {
+    onChangeSearchValue('')
   }
-
   return (
     <TextField
       value={searchValue}
-      onChange={(e) => {
-        if (e.target.value === '') {
-          dispatch(resetSearch())
-        }
-        dispatch(setSearchValue(e.target.value))
-      }}
+      onChange={(e) => { onChangeSearchValue(e.target.value) }}
       placeholder="Search"
       variant="standard"
       type='text'
       InputProps={{
         endAdornment: (
-          <IconButton sx={{ padding: 0 }} onClick={handleReset}>
+          <IconButton sx={{ padding: 0 }}
+           onClick={onReset}
+           >
             <CloseIcon fontSize="small" />
           </IconButton>
         )
@@ -47,5 +26,7 @@ const Search = () => {
     />
   )
 }
+
+Search.propTypes = { searchValue: PropTypes.string, onChangeSearchValue: PropTypes.func }
 
 export { Search }
