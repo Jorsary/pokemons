@@ -13,10 +13,9 @@ const Home = () => {
   const {
     allPokemons
   } = useAppSelector((state) => state.pokemon)
-
   const [searchParams] = useSearchParams()
-
   const dispatch = useAppDispatch()
+
   useEffect(() => {
     const types = searchParams.getAll('types')
     const page = Number(searchParams.get('currentPage'))

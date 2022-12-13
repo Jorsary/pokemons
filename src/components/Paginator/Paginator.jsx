@@ -17,8 +17,6 @@ const Paginator = () => {
 
   const handleChange = (event, value) => {
     dispatch(setCurrentPage(value))
-    searchParams.set('currentPage', value)
-    setSearchParams(searchParams)
   }
 
   const handleItemsPerPageChange = (event) => {
@@ -27,6 +25,11 @@ const Paginator = () => {
     searchParams.set('itemsPerPage', event.target.value)
     setSearchParams(searchParams)
   }
+
+  useEffect(() => {
+    searchParams.set('currentPage', currentPage)
+    setSearchParams(searchParams)
+  }, [currentPage])
 
   useEffect(() => {
     if (currentPage > totalPages) { dispatch(setCurrentPage(1)) }

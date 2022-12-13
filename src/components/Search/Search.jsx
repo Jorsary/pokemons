@@ -23,7 +23,7 @@ const Search = () => {
     }
   }, [searchValue])
 
-  const handleReset = (e) => {
+  const handleReset = () => {
     dispatch(resetSearch())
     searchParams.delete('searchValue')
     setSearchParams(searchParams)
@@ -34,9 +34,7 @@ const Search = () => {
       value={searchValue}
       onChange={(e) => {
         if (e.target.value === '') {
-          dispatch(resetSearch())
-          searchParams.delete('searchValue')
-          setSearchParams(searchParams)
+          handleReset()
         }
         dispatch(setSearchValue(e.target.value))
         searchParams.set('searchValue', e.target.value)
