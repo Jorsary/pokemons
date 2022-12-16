@@ -3,6 +3,7 @@ import { IconButton, TextField } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import useDebounce from '../../hooks/useDebounce'
 import {
   resetSearch,
   searchByName, setSearchValue
@@ -11,17 +12,11 @@ const Search = () => {
   const dispatch = useAppDispatch()
   const { searchValue } = useAppSelector((state) => state.pokemon)
   const [searchParams, setSearchParams] = useSearchParams()
+  const [debouncedValue] = useDebounce(searchValue, 500)
 
   useEffect(() => {
-    if (searchValue) {
-      const timeoutId = setTimeout(() => {
-        dispatch(searchByName())
-      }, 1000)
-      return () => {
-        clearTimeout(timeoutId)
-      }
-    }
-  }, [searchValue])
+    if (debouncedValue)dispatch(searchByName())
+  }, [debouncedValue])
 
   const handleReset = () => {
     dispatch(resetSearch())
